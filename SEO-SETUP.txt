@@ -8,8 +8,8 @@ SEO + Cloudflare + Analytics setup
    - Submit sitemap: https://flightsimulator.gr/sitemap.xml
 
 2. GOOGLE ANALYTICS 4
-   - Create GA4 property, get Measurement ID (G-XXXXXXXXXX)
-   - Open js/main.js and replace G-XXXXXXXXXX with your ID
+   - GA4 Measurement ID: G-BKCQ86LGR1 (already set in js/main.js)
+   - It loads only after the visitor accepts analytics cookies
    - Analytics loads ONLY after the user accepts cookies (GDPR)
 
 3. CLOUDFLARE

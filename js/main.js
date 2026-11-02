@@ -206,7 +206,7 @@
   function loadAnalytics() {
     if (window.__ga_loaded) return;
     window.__ga_loaded = true;
-    var GA_ID = 'G-XXXXXXXXXX'; // <-- PUT YOUR GA4 MEASUREMENT ID HERE
+    var GA_ID = 'G-BKCQ86LGR1';
     if (!GA_ID || GA_ID.indexOf('XXXX') !== -1) return; // skip if not configured
     var s = document.createElement('script');
     s.async = true;
