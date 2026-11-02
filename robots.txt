@@ -10,4 +10,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://flightsimulato.gr/go/sitemap.xml
+Sitemap: https://flightsimulator.gr/go/sitemap.xml
