@@ -4,4 +4,10 @@ Disallow: /data/access.code
 Disallow: /data/access.code.php
 Disallow: /1q2w3e4r5t6y7u8i9o0p/
 
+User-agent: Googlebot
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
 Sitemap: https://flightsimulator.gr/sitemap.xml

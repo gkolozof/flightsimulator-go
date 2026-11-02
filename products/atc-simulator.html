@@ -3,44 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Professional ATC Simulator | Air Traffic Control Training</title>
-  <meta name="robots" content="noindex, follow">
-  <meta name="description" content="Professional ATC Simulator. Primary/secondary radar, tower view, multi-sector. From €350,000 (+€120,000 per workstation).">
-  <link rel="canonical" href="https://flightsimulator.gr/products/professional-atc-simulator-realistic-training-for-air-traffic-controllers.html">
-  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <title>Professional ATC Simulator | Flight Simulator</title>
+  <meta name="description" content="Professional ATC simulator for aviation schools, with primary and secondary radar, tower view and multi-sector training. From €350,000.">
+  <link rel="canonical" href="https://flightsimulator.gr/products/atc-simulator.html">
+  <link rel="icon" href="../img/favicon.png" type="image/png">
   <link rel="stylesheet" href="../css/style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Professional ATC Simulator","image":"https://flightsimulator.gr/img/atc-full.png","offers":{"@type":"Offer","priceCurrency":"EUR","price":"350000","availability":"https://schema.org/InStock"}}</script>
+
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://flightsimulator.gr/products/atc-simulator.html">
+  <meta property="og:title" content="Professional ATC Simulator">
+  <meta property="og:description" content="Professional ATC simulator for aviation schools, with primary and secondary radar, tower view and multi-sector training. From €350,000.">
+  <meta property="og:image" content="https://flightsimulator.gr/img/products/gallery/professional-atc-simulator-realistic-training-for-air-traffic-controllers-0.png">
+  <meta property="og:site_name" content="Flight Simulator">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Professional ATC Simulator", "image": "https://flightsimulator.gr/img/products/gallery/professional-atc-simulator-realistic-training-for-air-traffic-controllers-0.png", "description": "Professional ATC simulator for aviation schools, with primary and secondary radar, tower view and multi-sector training. From €350,000.", "brand": {"@type": "Brand", "name": "Flight Simulator"}, "offers": {"@type": "Offer", "url": "https://flightsimulator.gr/products/atc-simulator.html", "priceCurrency": "EUR", "price": "350000", "availability": "https://schema.org/InStock"}}</script>
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <a href="../" class="logo"><img src="../img/logo.png" alt="Flight Simulator"></a>
-      <nav class="nav" id="nav"><a href="./">Products</a><a href="../contact.html" class="btn btn-sm">Contact</a></nav>
+      <nav class="nav" id="nav">
+        <a href="./">Products</a>
+        <a href="../how-it-works.html">How it works</a>
+        <a href="../contact.html" class="btn btn-sm">Contact</a>
+      </nav>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </header>
   <main>
     <section class="product-hero">
       <div class="container product-layout">
-        <div class="product-gallery"><img src="../img/products/professional-atc-simulator-realistic-training-for-air-traffic-controllers.png" alt="Professional ATC Simulator"></div>
+        <div class="product-gallery">
+          <div class="gallery-stage">
+            <button type="button" class="g-prev" aria-label="Previous photo">&#8249;</button>
+            <img id="mainPhoto" src="../img/products/gallery/professional-atc-simulator-realistic-training-for-air-traffic-controllers-0.png" alt="Professional ATC Simulator">
+            <button type="button" class="g-next" aria-label="Next photo">&#8250;</button>
+          </div>
+          <div class="thumbs"><img src="../img/products/gallery/professional-atc-simulator-realistic-training-for-air-traffic-controllers-0.png" alt="Professional ATC Simulator"></div>
+        </div>
         <div class="product-info">
-          <p class="badge">Professional ATC Training</p>
           <h1>Professional ATC Simulator</h1>
-          <p class="price">from <strong>350.000 €</strong></p>
-          <p>Advanced ATC Simulator for aviation schools and ATC professionals. Primary/secondary radar, tower view, approach/departure control and multi-sector management.</p>
-          <p style="color:var(--muted);margin:.8rem 0">Besides the base price, an additional charge of <strong style="color:#fff">€120.000</strong> is added for each workstation.</p>
-          <ul class="specs">
-            <li><strong>Base price</strong> €350.000</li>
-            <li><strong>Extra workstation</strong> +€120.000 each</li>
-            <li><strong>Features</strong> Radar, tower, approach/departure, multi-sector</li>
-            <li><strong>Installation</strong> Typically 2–3 months</li>
-          </ul>
-          <a href="../contact.html" class="btn btn-primary">Request quotation</a>
+          <p class="price"><strong>350.000 €</strong></p>
+          <p class="lead">Delivery time: 2–3 months</p>
+          <p>Discover our advanced ATC Simulator , designed specifically for aviation schools and air traffic control (ATC) professionals. This immersive system faithfully replicates real operational conditions, integrating primary/secondary radar, tower view, approach/departure control, and multi-sector management.</p>
+          <button class="btn btn-primary" type="button" id="buyBtn">Buy</button>
+          <form class="form" id="orderForm" action="../order.php" method="post" hidden style="margin-top:1.2rem">
+            <input type="hidden" name="product" value="Professional ATC Simulator">
+            <div class="form-row"><label>Name *</label><input name="name" required></div>
+            <div class="form-row"><label>Email *</label><input type="email" name="email" required></div>
+            <div class="form-row"><label>Phone</label><input name="phone"></div>
+            <div class="form-row"><label>Message</label><textarea name="message" rows="4" placeholder="Quantity, delivery country, questions…"></textarea></div>
+            <button class="btn btn-primary" type="submit">Send order by email</button>
+          </form>
         </div>
       </div>
     </section>
   </main>
   <footer class="footer"><div class="container footer-bottom"><p>© <span id="year"></span> Flight Simulator · <a href="./">Catalogue</a></p></div></footer>
-  <script src="../js/main.js?v=3" defer></script>
+  <script>
+    (function(){
+      var imgs=[].slice.call(document.querySelectorAll('.thumbs img'));
+      var seen={};
+      imgs=imgs.filter(function(img){
+        var k=img.getAttribute('src');
+        if(seen[k]){ img.remove(); return false; }
+        seen[k]=1; return true;
+      });
+      var main=document.getElementById('mainPhoto');
+      var i=0;
+      function show(n){
+        if(!imgs.length) return;
+        i=(n+imgs.length)%imgs.length;
+        main.src=imgs[i].src;
+        imgs.forEach(function(t,k){ t.classList.toggle('on', k===i); });
+      }
+      imgs.forEach(function(t,k){ t.addEventListener('click', function(){ show(k); }); });
+      var prev=document.querySelector('.g-prev'), next=document.querySelector('.g-next');
+      if(imgs.length<2){
+        if(prev) prev.hidden=true;
+        if(next) next.hidden=true;
+        var box=document.querySelector('.thumbs');
+        if(box) box.hidden=true;
+      } else {
+        prev.addEventListener('click', function(){ show(i-1); });
+        next.addEventListener('click', function(){ show(i+1); });
+      }
+      show(0);
+      document.getElementById('buyBtn').addEventListener('click', function(){
+        var f=document.getElementById('orderForm');
+        f.hidden=false;
+        f.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    })();
+  </script>
+  <script src="../js/main.js?v=4" defer></script>
 </body>
 </html>

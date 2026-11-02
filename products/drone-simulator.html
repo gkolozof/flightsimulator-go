@@ -3,43 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Professional Drone Simulator | Immersive Training System</title>
-  <meta name="robots" content="noindex, follow">
-  <meta name="description" content="Professional drone simulator with projectors. Immersive 360° training. From €15,000.">
-  <link rel="canonical" href="https://flightsimulator.gr/products/professional-drone-simulator.html">
-  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <title>Professional Drone Simulator | Flight Simulator</title>
+  <meta name="description" content="Immersive professional drone simulator with projectors and a realistic virtual environment for pilot training. From €15,000.">
+  <link rel="canonical" href="https://flightsimulator.gr/products/drone-simulator.html">
+  <link rel="icon" href="../img/favicon.png" type="image/png">
   <link rel="stylesheet" href="../css/style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Professional Drone Simulator","image":"https://flightsimulator.gr/img/drone.png","offers":{"@type":"Offer","priceCurrency":"EUR","price":"15000","availability":"https://schema.org/InStock"}}</script>
+
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://flightsimulator.gr/products/drone-simulator.html">
+  <meta property="og:title" content="Professional Drone Simulator">
+  <meta property="og:description" content="Immersive professional drone simulator with projectors and a realistic virtual environment for pilot training. From €15,000.">
+  <meta property="og:image" content="https://flightsimulator.gr/img/products/gallery/professional-drone-simulator-0.png">
+  <meta property="og:site_name" content="Flight Simulator">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Professional Drone Simulator", "image": "https://flightsimulator.gr/img/products/gallery/professional-drone-simulator-0.png", "description": "Immersive professional drone simulator with projectors and a realistic virtual environment for pilot training. From €15,000.", "brand": {"@type": "Brand", "name": "Flight Simulator"}, "offers": {"@type": "Offer", "url": "https://flightsimulator.gr/products/drone-simulator.html", "priceCurrency": "EUR", "price": "15000", "availability": "https://schema.org/InStock"}}</script>
 </head>
 <body>
   <header class="header">
     <div class="container header-inner">
       <a href="../" class="logo"><img src="../img/logo.png" alt="Flight Simulator"></a>
-      <nav class="nav" id="nav"><a href="./">Products</a><a href="../contact.html" class="btn btn-sm">Contact</a></nav>
+      <nav class="nav" id="nav">
+        <a href="./">Products</a>
+        <a href="../how-it-works.html">How it works</a>
+        <a href="../contact.html" class="btn btn-sm">Contact</a>
+      </nav>
       <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </header>
   <main>
     <section class="product-hero">
       <div class="container product-layout">
-        <div class="product-gallery"><img src="../img/products/professional-drone-simulator.png" alt="Professional Drone Simulator"></div>
+        <div class="product-gallery">
+          <div class="gallery-stage">
+            <button type="button" class="g-prev" aria-label="Previous photo">&#8249;</button>
+            <img id="mainPhoto" src="../img/products/gallery/professional-drone-simulator-0.png" alt="Professional Drone Simulator">
+            <button type="button" class="g-next" aria-label="Next photo">&#8250;</button>
+          </div>
+          <div class="thumbs"><img src="../img/products/gallery/professional-drone-simulator-0.png" alt="Professional Drone Simulator"></div>
+        </div>
         <div class="product-info">
-          <p class="badge">Drone Training</p>
           <h1>Professional Drone Simulator</h1>
-          <p class="price">from <strong>15.000 €</strong></p>
-          <p>Immersive training system for drone piloting practice, using projectors to create realistic virtual environments on curved or dome screens (360° views).</p>
-          <ul class="specs">
-            <li><strong>Type</strong> Full immersive drone training</li>
-            <li><strong>Display</strong> Projectors on curved / dome screens</li>
-            <li><strong>View</strong> 360° realistic environments</li>
-            <li><strong>Installation</strong> Typically 2–3 months</li>
-          </ul>
-          <a href="../contact.html" class="btn btn-primary">Request quotation</a>
+          <p class="price"><strong>15.000 €</strong></p>
+          <p class="lead">Delivery time: 2–3 months</p>
+          <p>A drone simulator with projectors is an immersive training system for piloting practice, using projectors to create realistic virtual environments on curved or dome screens, simulating 280-degree views like a professional</p>
+          <button class="btn btn-primary" type="button" id="buyBtn">Buy</button>
+          <form class="form" id="orderForm" action="../order.php" method="post" hidden style="margin-top:1.2rem">
+            <input type="hidden" name="product" value="Professional Drone Simulator">
+            <div class="form-row"><label>Name *</label><input name="name" required></div>
+            <div class="form-row"><label>Email *</label><input type="email" name="email" required></div>
+            <div class="form-row"><label>Phone</label><input name="phone"></div>
+            <div class="form-row"><label>Message</label><textarea name="message" rows="4" placeholder="Quantity, delivery country, questions…"></textarea></div>
+            <button class="btn btn-primary" type="submit">Send order by email</button>
+          </form>
         </div>
       </div>
     </section>
   </main>
   <footer class="footer"><div class="container footer-bottom"><p>© <span id="year"></span> Flight Simulator · <a href="./">Catalogue</a></p></div></footer>
-  <script src="../js/main.js?v=3" defer></script>
+  <script>
+    (function(){
+      var imgs=[].slice.call(document.querySelectorAll('.thumbs img'));
+      var seen={};
+      imgs=imgs.filter(function(img){
+        var k=img.getAttribute('src');
+        if(seen[k]){ img.remove(); return false; }
+        seen[k]=1; return true;
+      });
+      var main=document.getElementById('mainPhoto');
+      var i=0;
+      function show(n){
+        if(!imgs.length) return;
+        i=(n+imgs.length)%imgs.length;
+        main.src=imgs[i].src;
+        imgs.forEach(function(t,k){ t.classList.toggle('on', k===i); });
+      }
+      imgs.forEach(function(t,k){ t.addEventListener('click', function(){ show(k); }); });
+      var prev=document.querySelector('.g-prev'), next=document.querySelector('.g-next');
+      if(imgs.length<2){
+        if(prev) prev.hidden=true;
+        if(next) next.hidden=true;
+        var box=document.querySelector('.thumbs');
+        if(box) box.hidden=true;
+      } else {
+        prev.addEventListener('click', function(){ show(i-1); });
+        next.addEventListener('click', function(){ show(i+1); });
+      }
+      show(0);
+      document.getElementById('buyBtn').addEventListener('click', function(){
+        var f=document.getElementById('orderForm');
+        f.hidden=false;
+        f.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    })();
+  </script>
+  <script src="../js/main.js?v=4" defer></script>
 </body>
 </html>

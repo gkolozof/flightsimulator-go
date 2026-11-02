@@ -25,25 +25,37 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/c152-magic-full-embedded-big-copy-copy.html</loc>
+    <loc>https://flightsimulator.gr/products/atc-simulator.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/c152-magic-full-embedded-big-copy.html</loc>
+    <loc>https://flightsimulator.gr/products/cessna-152-magic-big.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/c152-magic-full-embedded-mini.html</loc>
+    <loc>https://flightsimulator.gr/products/cessna-152-magic-mini.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/c172-magic-full-embedded-big.html</loc>
+    <loc>https://flightsimulator.gr/products/cessna-172-magic-big.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://flightsimulator.gr/products/cessna-172-magic-mini.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://flightsimulator.gr/products/cessna-cabin-172-152.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -55,7 +67,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/full-cessna-cabin-172-152-for-professional-flight-simulator.html</loc>
+    <loc>https://flightsimulator.gr/products/drone-simulator.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -73,7 +85,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/garmin-g530-copy.html</loc>
+    <loc>https://flightsimulator.gr/products/garmin-g530.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -91,37 +103,25 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/professional-atc-simulator-realistic-training-for-air-traffic-controllers.html</loc>
+    <loc>https://flightsimulator.gr/products/professional-cessna-152-magic-big.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/professional-c152-magic-full-embedded-big.html</loc>
+    <loc>https://flightsimulator.gr/products/professional-cessna-152-magic-mini.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/professional-c152-magic-full-embedded-mini.html</loc>
+    <loc>https://flightsimulator.gr/products/professional-cessna-172-magic-big.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://flightsimulator.gr/products/professional-c172-magic-full-embedded-mini-2.html</loc>
-    <lastmod>2026-11-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://flightsimulator.gr/products/professional-c172-magic-full-embedded-mini.html</loc>
-    <lastmod>2026-11-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://flightsimulator.gr/products/professional-drone-simulator.html</loc>
+    <loc>https://flightsimulator.gr/products/professional-cessna-172-magic-mini.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
