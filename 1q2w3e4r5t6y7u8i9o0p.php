@@ -4,8 +4,7 @@ $root = __DIR__;
 $dataDir = $root . '/data';
 $jsonFile = $dataDir . '/products.json';
 $imgDir = $root . '/img/products/extra';
-$code = trim((string) @file_get_contents($dataDir . '/access.code'));
-if ($code === '') $code = 'cto';
+$ACCESS_HASH = '$2y$12$r7QuK0kU.t4HX83uVX6UD.y8oFJK6ULLW70CP73lFhpYKqvPNLcYm';
 
 function load_products($file) {
     $list = json_decode((string) @file_get_contents($file), true);
@@ -64,13 +63,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id']) && !empt
     }));
     save_products($jsonFile, $list);
     @unlink($root . '/products/' . $id . '.html');
-    header('Location: admin.php');
+    header('Location: 1q2w3e4r5t6y7u8i9o0p.php');
     exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $given = trim((string) ($_POST['code'] ?? ''));
-    if (!hash_equals($code, $given) && empty($_SESSION['admin_ok'])) {
+    $custom = $dataDir . '/access.code.php';
+    if (is_file($custom)) {
+        $loaded = include $custom;
+        $ok = is_string($loaded) && hash_equals(trim($loaded), $given);
+    } else {
+        $ok = password_verify($given, $ACCESS_HASH);
+    }
+    if (!$ok && empty($_SESSION['admin_ok'])) {
         $error = 'Codice non valido.';
     } else {
         $_SESSION['admin_ok'] = true;
@@ -164,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 }
             }
             if ($found && $error === '') {
-                header('Location: admin.php?saved=1&edit=' . rawurlencode($editId));
+                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1&edit=' . rawurlencode($editId));
                 exit;
             }
             if (!$found && $error === '') $error = 'Prodotto non trovato.';
@@ -184,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     $error = 'Non riesco a salvare. Dai i permessi di scrittura alla cartella data/.';
                 } else {
                     write_product_html($root, $id, $name, $price, $desc, $images);
-                    header('Location: admin.php?saved=1');
+                    header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1');
                     exit;
                 }
             }
@@ -270,7 +276,7 @@ $val = function ($key, $fallback = '') use ($editing) {
           <?php endif; ?>
           <div class="form-row"><label for="images">Foto <?= $editing ? '(aggiungine altre)' : '(una o più) *' ?></label><input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp" multiple <?= $editing ? '' : 'required' ?>></div>
           <button class="btn btn-primary" type="submit"><?= $editing ? 'Salva modifiche' : 'Pubblica nel catalogo' ?></button>
-          <?php if ($editing): ?><a class="btn btn-outline" href="admin.php" style="margin-left:.5rem">Annulla</a><?php endif; ?>
+          <?php if ($editing): ?><a class="btn btn-outline" href="1q2w3e4r5t6y7u8i9o0p.php" style="margin-left:.5rem">Annulla</a><?php endif; ?>
         </form>
         <h2 style="margin:2rem 0 1rem">Prodotti</h2>
         <?php
@@ -286,7 +292,7 @@ $val = function ($key, $fallback = '') use ($editing) {
           <div style="display:flex;gap:1rem;align-items:center;margin-bottom:1rem">
             <img src="<?= h($p['images'][0] ?? '') ?>" alt="" style="width:88px;height:64px;object-fit:contain;background:#07111f;border-radius:8px">
             <div style="flex:1"><strong><?= h($p['name']) ?></strong><br><span style="color:var(--muted)"><?= h($p['price']) ?> · <?= count($p['images']) ?> foto</span></div>
-            <a class="btn btn-sm btn-primary" href="admin.php?edit=<?= h($p['id']) ?>">Modifica</a>
+            <a class="btn btn-sm btn-primary" href="1q2w3e4r5t6y7u8i9o0p.php?edit=<?= h($p['id']) ?>">Modifica</a>
             <?php if ($logged && $p['extra']): ?>
             <form method="post"><input type="hidden" name="delete_id" value="<?= h($p['id']) ?>"><button class="btn btn-outline btn-sm" type="submit">Elimina</button></form>
             <?php endif; ?>

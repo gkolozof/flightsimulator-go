@@ -23,7 +23,25 @@
 
 Options -Indexes
 
+RewriteEngine On
+
+# Real favicon
+RewriteRule ^favicon\.ico$ /img/favicon.png [L]
+
+# One address for ATC and drone (avoid duplicate pages)
+RewriteRule ^products/atc-simulator\.html$ /products/professional-atc-simulator-realistic-training-for-air-traffic-controllers.html [R=301,L]
+RewriteRule ^products/drone-simulator\.html$ /products/professional-drone-simulator.html [R=301,L]
+
+# Never publish the access code
+RewriteRule (^|/)access\.code$ - [F,L]
+RewriteRule ^1q2w3e4r5t6y7u8i9o0p/ - [F,L]
+
+# Unknown addresses must be a real 404, not the homepage
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . - [R=404,L]
+ErrorDocument 404 /404.html
+
 # Optional: force HTTPS at origin (Cloudflare Flexible/Full often handles this)
-# RewriteEngine On
 # RewriteCond %{HTTP:CF-Visitor} '"scheme":"http"'
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

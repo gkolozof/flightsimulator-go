@@ -1,13 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /go/admin.php
-Disallow: /go/data/
+Disallow: /data/access.code
+Disallow: /data/access.code.php
+Disallow: /1q2w3e4r5t6y7u8i9o0p/
 
-# Cloudflare / bots
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-Sitemap: https://flightsimulator.gr/go/sitemap.xml
+Sitemap: https://flightsimulator.gr/sitemap.xml
