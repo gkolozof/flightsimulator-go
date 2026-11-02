@@ -202,7 +202,7 @@
     }
   }
 
-  // --- Google Analytics 4 (replace G-XXXXXXXXXX with your Measurement ID) ---
+  // --- Google Analytics 4 (G-BKCQ86LGR1), only after consent ---
   function loadAnalytics() {
     if (window.__ga_loaded) return;
     window.__ga_loaded = true;
