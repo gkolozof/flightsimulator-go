@@ -202,11 +202,11 @@
     }
   }
 
-  // --- Google Analytics 4 (G-BKCQ86LGR1), only after consent ---
+  // --- Google Analytics 4 (G-NH69P6V66N), only after consent ---
   function loadAnalytics() {
     if (window.__ga_loaded) return;
     window.__ga_loaded = true;
-    var GA_ID = 'G-BKCQ86LGR1';
+    var GA_ID = 'G-NH69P6V66N';
     if (!GA_ID || GA_ID.indexOf('XXXX') !== -1) return; // skip if not configured
     var s = document.createElement('script');
     s.async = true;
