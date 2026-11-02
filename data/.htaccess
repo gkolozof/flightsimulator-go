@@ -1,0 +1,3 @@
+<Files "access.code">
+  Require all denied
+</Files>

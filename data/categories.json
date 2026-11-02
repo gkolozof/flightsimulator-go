@@ -1,0 +1,7 @@
+[
+  {"id": "c172", "label": "Cessna 172"},
+  {"id": "c152", "label": "Cessna 152"},
+  {"id": "atc", "label": "ATC Simulator"},
+  {"id": "drone", "label": "Drone Simulator"},
+  {"id": "parts", "label": "Cabin & Components"}
+]

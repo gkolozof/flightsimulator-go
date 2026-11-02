@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Professional C152 Magic Full Embedded Big | Flight Simulator</title>
+  <meta name="description" content="PROFESSIONAL simulator for the Cessna 152 DIMENSIONS 5,2×4,62m, fully automated and not requiring any external controller. The simulator is fully inte">
+  <link rel="canonical" href="https://flightsimulato.gr/go/products/professional-c152-magic-full-embedded-big.html">
+  <link rel="icon" href="../img/logo.png" type="image/png">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="../" class="logo"><img src="../img/logo.png" alt="Flight Simulator"></a>
+      <nav class="nav" id="nav">
+        <a href="./">Products</a>
+        <a href="../how-it-works.html">How it works</a>
+        <a href="../contact.html" class="btn btn-sm">Contact</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <section class="product-hero">
+      <div class="container product-layout">
+        <div class="product-gallery">
+          <div class="gallery-stage">
+            <button type="button" class="g-prev" aria-label="Previous photo">&#8249;</button>
+            <img id="mainPhoto" src="../img/products/gallery/professional-c152-magic-full-embedded-big-0.jpg" alt="Professional C152 Magic Full Embedded Big">
+            <button type="button" class="g-next" aria-label="Next photo">&#8250;</button>
+          </div>
+          <div class="thumbs"><img src="../img/products/gallery/professional-c152-magic-full-embedded-big-0.jpg" alt=""><img src="../img/products/gallery/professional-c152-magic-full-embedded-big-1.jpg" alt=""></div>
+        </div>
+        <div class="product-info">
+          <h1>Professional C152 Magic Full Embedded Big</h1>
+          <p class="price"><strong>75.000 €</strong></p>
+          <p class="lead">Delivery time: 2–3 months</p>
+          <p>PROFESSIONAL simulator for the Cessna 152 DIMENSIONS 5,2×4,62m, fully automated and not requiring any external controller. The simulator is fully integrated and designed to minimize the required space as much as possible. It is provided together with the PRIME and Carb Heat.</p>
+          <button class="btn btn-primary" type="button" id="buyBtn">Buy</button>
+          <form class="form" id="orderForm" action="../order.php" method="post" hidden style="margin-top:1.2rem">
+            <input type="hidden" name="product" value="Professional C152 Magic Full Embedded Big">
+            <div class="form-row"><label>Name *</label><input name="name" required></div>
+            <div class="form-row"><label>Email *</label><input type="email" name="email" required></div>
+            <div class="form-row"><label>Phone</label><input name="phone"></div>
+            <div class="form-row"><label>Message</label><textarea name="message" rows="4" placeholder="Quantity, delivery country, questions…"></textarea></div>
+            <button class="btn btn-primary" type="submit">Send order by email</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container footer-bottom"><p>© <span id="year"></span> Flight Simulator · <a href="./">Catalogue</a></p></div></footer>
+  <script>
+    (function(){
+      var imgs=[].slice.call(document.querySelectorAll('.thumbs img'));
+      var seen={};
+      imgs=imgs.filter(function(img){
+        var k=img.getAttribute('src');
+        if(seen[k]){ img.remove(); return false; }
+        seen[k]=1; return true;
+      });
+      var main=document.getElementById('mainPhoto');
+      var i=0;
+      function show(n){
+        if(!imgs.length) return;
+        i=(n+imgs.length)%imgs.length;
+        main.src=imgs[i].src;
+        imgs.forEach(function(t,k){ t.classList.toggle('on', k===i); });
+      }
+      imgs.forEach(function(t,k){ t.addEventListener('click', function(){ show(k); }); });
+      var prev=document.querySelector('.g-prev'), next=document.querySelector('.g-next');
+      if(imgs.length<2){
+        if(prev) prev.hidden=true;
+        if(next) next.hidden=true;
+        var box=document.querySelector('.thumbs');
+        if(box) box.hidden=true;
+      } else {
+        prev.addEventListener('click', function(){ show(i-1); });
+        next.addEventListener('click', function(){ show(i+1); });
+      }
+      show(0);
+      document.getElementById('buyBtn').addEventListener('click', function(){
+        var f=document.getElementById('orderForm');
+        f.hidden=false;
+        f.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    })();
+  </script>
+  <script src="../js/main.js" defer></script>
+</body>
+</html>

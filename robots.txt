@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /go/admin.php
+Disallow: /go/data/
+
+# Cloudflare / bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://flightsimulato.gr/go/sitemap.xml

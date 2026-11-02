@@ -1,0 +1,31 @@
+SEO + Cloudflare + Analytics setup
+==================================
+
+1. GOOGLE SEARCH CONSOLE
+   - https://search.google.com/search-console
+   - Add property: https://flightsimulato.gr
+   - Verification: put the code in index.html meta name="google-site-verification"
+   - Submit sitemap: https://flightsimulato.gr/go/sitemap.xml
+
+2. GOOGLE ANALYTICS 4
+   - Create GA4 property, get Measurement ID (G-XXXXXXXXXX)
+   - Open js/main.js and replace G-XXXXXXXXXX with your ID
+   - Analytics loads ONLY after the user accepts cookies (GDPR)
+
+3. CLOUDFLARE
+   - SSL/TLS: Full (strict) recommended
+   - Speed: Auto Minify (HTML/CSS/JS), Brotli ON
+   - Caching: Standard; respect existing headers
+   - robots.txt and sitemap are already set for this path (/go/)
+   - Optional: Page Rules / Cache Rules for /go/img/* long cache
+
+4. AFTER DEPLOY
+   - Hard refresh
+   - Test cookie banner (Accept / Reject / Settings)
+   - In Search Console: request indexing for homepage + /go/products/
+   - Optional: Bing Webmaster Tools + same sitemap
+
+5. INSTALL
+   cd /var/www/html/flightsimulato.gr/go
+   unzip and copy contents of fs-final/ here
+   chown -R www-data:www-data .
