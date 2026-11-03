@@ -236,6 +236,13 @@
     Object.keys(pack).forEach(function (en) { DICT[lang][en] = pack[en]; });
   });
 
+  var SITES = {"es":{"Our sites":"Nuestros sitios"},"fr":{"Our sites":"Nos sites"},"ru":{"Our sites":"Наши сайты"},"de":{"Our sites":"Unsere Seiten"},"it":{"Our sites":"I nostri siti"},"el":{"Our sites":"Οι ιστοσελίδες μας"}};
+  Object.keys(SITES).forEach(function (lang) {
+    var pack = SITES[lang];
+    if (!DICT[lang]) DICT[lang] = {};
+    Object.keys(pack).forEach(function (en) { DICT[lang][en] = pack[en]; });
+  });
+
   var current = 'en';
   var origText = new WeakMap();
   var started = false;
