@@ -15,6 +15,102 @@ function save_products($file, $list) {
 }
 function h($s) { return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8'); }
 
+function http_post($url, $body) {
+    if (function_exists('curl_init')) {
+        $ch = curl_init($url);
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $body,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 25,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/x-www-form-urlencoded', 'User-Agent: Mozilla/5.0'],
+        ]);
+        $out = curl_exec($ch);
+        curl_close($ch);
+        return is_string($out) ? $out : '';
+    }
+    $ctx = stream_context_create(['http' => [
+        'method' => 'POST',
+        'header' => "Content-Type: application/x-www-form-urlencoded\r\nUser-Agent: Mozilla/5.0\r\n",
+        'content' => $body,
+        'timeout' => 25,
+    ]]);
+    $out = @file_get_contents($url, false, $ctx);
+    return is_string($out) ? $out : '';
+}
+
+function translate_batch($texts, $tl) {
+    $texts = array_values($texts);
+    if (!$texts) return [];
+    $sep = "\n§§§\n";
+    $url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' . rawurlencode($tl) . '&dt=t';
+    $raw = http_post($url, http_build_query(['q' => implode($sep, $texts)]));
+    $data = json_decode($raw, true);
+    if (!is_array($data) || !isset($data[0]) || !is_array($data[0])) return null;
+    $text = '';
+    foreach ($data[0] as $part) {
+        if (isset($part[0])) $text .= $part[0];
+    }
+    $bits = explode('§§§', $text);
+    if (count($bits) !== count($texts)) return null;
+    $out = [];
+    foreach ($texts as $i => $src) $out[$src] = trim($bits[$i]);
+    return $out;
+}
+
+function text_pieces($html) {
+    $parts = preg_split('/<[^>]+>/', (string) $html);
+    $out = [];
+    foreach ($parts as $p) {
+        $p = trim(html_entity_decode($p, ENT_QUOTES, 'UTF-8'));
+        if ($p !== '') $out[] = $p;
+    }
+    return $out;
+}
+
+function remember_translations($dataDir, $strings) {
+    $clean = [];
+    foreach ($strings as $s) {
+        $s = trim((string) $s);
+        if ($s !== '' && !in_array($s, $clean, true)) $clean[] = $s;
+    }
+    if (!$clean) return true;
+    @set_time_limit(120);
+    $file = $dataDir . '/i18n-extra.json';
+    $map = json_decode((string) @file_get_contents($file), true);
+    if (!is_array($map)) $map = [];
+    $ok = true;
+    foreach (['es', 'fr', 'ru', 'de', 'it', 'el', 'en'] as $tl) {
+        $batch = translate_batch($clean, $tl);
+        if (!is_array($batch)) { $ok = false; continue; }
+        foreach ($clean as $src) {
+            $tr = $batch[$src] ?? '';
+            if ($tr === '') continue;
+            if ($tl === 'en' && strcasecmp($tr, $src) === 0) continue;
+            if (!isset($map[$src]) || !is_array($map[$src])) $map[$src] = [];
+            $map[$src][$tl] = $tr;
+        }
+    }
+    if (!is_dir($dataDir)) mkdir($dataDir, 0755, true);
+    $written = file_put_contents($file, json_encode($map, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)) !== false;
+    return $ok && $written;
+}
+
+function rename_visible($root, $old, $new) {
+    if ($old === '' || $old === $new) return;
+    foreach (['products/index.html', 'js/main.js', 'index.html'] as $rel) {
+        $path = $root . '/' . $rel;
+        if (!is_file($path)) continue;
+        $html = (string) file_get_contents($path);
+        $html2 = str_replace(
+            ['>' . $old . '<', 'alt="' . $old . '"', "'" . $old . "'", '"' . $old . '"'],
+            ['>' . $new . '<', 'alt="' . $new . '"', "'" . $new . "'", '"' . $new . '"'],
+            $html
+        );
+        if ($html2 !== $html) file_put_contents($path, $html2);
+    }
+}
+
 function write_product_html($root, $id, $name, $price, $desc, $images) {
     $thumbs = '';
     foreach ($images as $src) {
@@ -30,7 +126,7 @@ function write_product_html($root, $id, $name, $price, $desc, $images) {
         . '<div class="form-row"><label>Phone</label><input name="phone"></div><div class="form-row"><label>Message</label><textarea name="message" rows="4"></textarea></div>'
         . '<button class="btn btn-primary" type="submit">Send order by email</button></form></div></div></section></main>'
         . '<script>(function(){var imgs=[].slice.call(document.querySelectorAll(".thumbs img"));var seen={};imgs=imgs.filter(function(img){var k=img.getAttribute("src");if(seen[k]){img.remove();return false;}seen[k]=1;return true;});var main=document.getElementById("mainPhoto"),i=0;function show(n){if(!imgs.length)return;i=(n+imgs.length)%imgs.length;main.src=imgs[i].src;imgs.forEach(function(t,k){t.classList.toggle("on",k===i);});}imgs.forEach(function(t,k){t.addEventListener("click",function(){show(k);});});var prev=document.querySelector(".g-prev"),next=document.querySelector(".g-next");if(imgs.length<2){if(prev)prev.hidden=true;if(next)next.hidden=true;}else{prev.addEventListener("click",function(){show(i-1);});next.addEventListener("click",function(){show(i+1);});}show(0);document.getElementById("buyBtn").addEventListener("click",function(){var f=document.getElementById("orderForm");f.hidden=false;f.scrollIntoView({behavior:"smooth"});});})();</script>'
-        . '<script src="../js/i18n.js?v=8" defer></script><script src="../js/main.js?v=8" defer></script></body></html>';
+        . '<script src="../js/i18n.js?v=9" defer></script><script src="../js/main.js?v=8" defer></script></body></html>';
     file_put_contents($root . '/products/' . $id . '.html', $page);
 }
 
@@ -147,7 +243,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_save'])) {
                 $error = 'Non riesco a aggiornare la home. Controlla i permessi di index.html.';
             }
             if ($error === '') {
-                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?home=1');
+                $trOk = remember_translations($dataDir, array_merge([$title, $accent], text_pieces(clean_lead($lead))));
+                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?home=1&tr=' . ($trOk ? '1' : '0'));
                 exit;
             }
         }
@@ -237,6 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     }
                     $images = array_values(array_merge($images, $uploaded));
                     if (!$images) { $error = 'Il prodotto deve avere almeno una foto.'; break; }
+                    $oldName = (string) ($p['name'] ?? '');
                     $catalog[$i]['name'] = $name;
                     $catalog[$i]['price'] = $price;
                     $catalog[$i]['description'] = $desc;
@@ -244,6 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     $catalog[$i]['images'] = $images;
                     file_put_contents($catalogFile, json_encode($catalog, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
                     write_product_html($root, $editId, $name, $price, $desc, $images);
+                    rename_visible($root, $oldName, $name);
                     $found = true;
                     break;
                 }
@@ -259,16 +358,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                         }
                         $images = array_values(array_merge($images, $uploaded));
                         if (!$images) { $error = 'Il prodotto deve avere almeno una foto.'; break; }
+                        $oldName = (string) ($p['name'] ?? '');
                         $list[$i] = ['id' => $editId, 'name' => $name, 'price' => $price, 'description' => $desc, 'category' => $category, 'categoryLabel' => $categoryLabel, 'images' => $images];
                         save_products($jsonFile, $list);
                         write_product_html($root, $editId, $name, $price, $desc, $images);
+                        rename_visible($root, $oldName, $name);
                         $found = true;
                         break;
                     }
                 }
             }
             if ($found && $error === '') {
-                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1&edit=' . rawurlencode($editId));
+                $lines = preg_split('/\R/u', $desc);
+                $trOk = remember_translations($dataDir, array_merge([$name, $desc, $categoryLabel], $lines, text_pieces($desc)));
+                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1&tr=' . ($trOk ? '1' : '0') . '&edit=' . rawurlencode($editId));
                 exit;
             }
             if (!$found && $error === '') $error = 'Prodotto non trovato.';
@@ -288,7 +391,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                     $error = 'Non riesco a salvare. Dai i permessi di scrittura alla cartella data/.';
                 } else {
                     write_product_html($root, $id, $name, $price, $desc, $images);
-                    header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1');
+                    $lines = preg_split('/\R/u', $desc);
+                    $trOk = remember_translations($dataDir, array_merge([$name, $desc, $categoryLabel], $lines, text_pieces($desc)));
+                    header('Location: 1q2w3e4r5t6y7u8i9o0p.php?saved=1&tr=' . ($trOk ? '1' : '0'));
                     exit;
                 }
             }
@@ -343,8 +448,9 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
     <section class="section" style="padding-top:8rem">
       <div class="container" style="max-width:720px">
         <h1>Prima schermata</h1>
-        <p style="color:var(--muted);margin:0.6rem 0 1rem">Testo grande sopra la foto, testo sulla foto e foto principale della home.</p>
-        <?php if ($homeSaved): ?><p style="color:#4ade80">Home aggiornata.</p><?php endif; ?>
+        <p style="color:var(--muted);margin:0.6rem 0 1rem">Testo grande sopra la foto, testo sulla foto e foto principale della home. Scrivi in inglese: al salvataggio viene tradotto da solo in spagnolo, francese, russo, tedesco, italiano e greco.</p>
+        <?php if ($homeSaved): ?><p style="color:#4ade80">Home aggiornata.<?= isset($_GET['tr']) && $_GET['tr'] === '1' ? ' Tradotta in tutte le lingue.' : '' ?></p><?php endif; ?>
+        <?php if ($homeSaved && isset($_GET['tr']) && $_GET['tr'] === '0'): ?><p style="color:#fbbf24">Salvata, ma la traduzione automatica non è riuscita. Il server deve poter raggiungere Google.</p><?php endif; ?>
         <?php if ($error && isset($_POST['home_save'])): ?><p style="color:#f87171"><?= h($error) ?></p><?php endif; ?>
         <form class="form" method="post" enctype="multipart/form-data" style="margin-bottom:2.5rem">
           <input type="hidden" name="home_save" value="1">
@@ -360,8 +466,9 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
         </form>
 
         <h1><?= $editing ? 'Modifica prodotto' : 'Aggiungi un prodotto' ?></h1>
-        <p style="color:var(--muted);margin:0.6rem 0 1rem">Puoi caricare più foto. Sotto la foto grande compaiono le altre dello stesso prodotto.</p>
-        <?php if ($saved): ?><p style="color:#4ade80">Salvato.</p><?php endif; ?>
+        <p style="color:var(--muted);margin:0.6rem 0 1rem">Puoi caricare più foto. Sotto la foto grande compaiono le altre dello stesso prodotto. Nome, categoria e descrizione si traducono da soli in tutte le lingue del sito. Scrivili in inglese.</p>
+        <?php if ($saved): ?><p style="color:#4ade80">Salvato.<?= isset($_GET['tr']) && $_GET['tr'] === '1' ? ' Tradotto in tutte le lingue.' : '' ?></p><?php endif; ?>
+        <?php if ($saved && isset($_GET['tr']) && $_GET['tr'] === '0'): ?><p style="color:#fbbf24">Salvato, ma la traduzione automatica non è riuscita. Il server deve poter raggiungere Google.</p><?php endif; ?>
         <?php if ($error && !isset($_POST['home_save'])): ?><p style="color:#f87171"><?= h($error) ?></p><?php endif; ?>
         <form class="form" method="post" enctype="multipart/form-data">
           <?php if ($editing): ?><input type="hidden" name="edit_id" value="<?= h($editing['id']) ?>"><?php endif; ?>
