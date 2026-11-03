@@ -30,7 +30,6 @@
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <a class="skip" href="#main">Skip to main content</a>
   <header class="header">
     <div class="container header-inner">
       <a href="./" class="logo"><img src="img/logo.png" alt="Flight Simulator" width="200" height="84"></a>
@@ -46,11 +45,11 @@
   <main id="main">
     <section class="stage">
       <div class="container stage-wrap">
-        <h1 class="stage-title">Professional Cessna 172/152<br> <span>Flight Simulators</span></h1>
+        <h1 class="stage-title" id="homeTitle">Professional Cessna 172/152<br> <span>Flight Simulators</span></h1>
         <figure class="stage-frame">
-          <img src="img/products/c172-magic-full-embedded-big.jpg" alt="Cessna 172 professional flight simulator cockpit" width="1600" height="900">
+          <img id="homePhoto" src="img/products/c172-magic-full-embedded-big.jpg" alt="Cessna 172 professional flight simulator cockpit" width="1600" height="900">
           <div class="stage-top">
-            <p>The only fully automatic Cessna 172 simulator on the market. Ready to fly in 65 seconds. Now with <b>Primer, Carb Heat & fuses</b>. Save 30–92% vs traditional training.</p>
+            <p id="homeLead">The only fully automatic Cessna 172 simulator on the market. Ready to fly in 65 seconds. Now with <b>Primer, Carb Heat & fuses</b>. Save 30–92% vs traditional training.</p>
           </div>
           <div class="stage-bottom">
             <div class="hero-stats">
@@ -72,46 +71,9 @@
       <div class="container">
         <header class="section-header">
           <h2>Featured products</h2>
-          <p>Full catalogue with all 18 simulators and components.</p>
+          <p>A new order each visit, in rows of four. Cabin and components stay in the full catalogue.</p>
         </header>
-        <div class="grid product-grid">
-          <article class="card">
-            <img src="img/products/c172-magic-full-embedded-big.jpg" alt="C172 Magic Full Embedded Big" class="card-img-real" loading="lazy">
-            <div class="card-body">
-              <h3>C172 Magic Full Embedded Big</h3>
-              <p class="price"><strong>70.000 €</strong></p>
-              <p>Cessna 172 · Fully automatic</p>
-              <a href="products/cessna-172-magic-big.html" class="btn btn-sm btn-primary">Details</a>
-            </div>
-          </article>
-          <article class="card">
-            <img src="img/products/c152-magic-full-embedded-mini.jpg" alt="C152 Magic Full Embedded Mini" class="card-img-real" loading="lazy">
-            <div class="card-body">
-              <h3>C152 Magic Full Embedded Mini</h3>
-              <p class="price"><strong>65.000 €</strong></p>
-              <p>Cessna 152 · Compact · Fully automatic</p>
-              <a href="products/cessna-152-magic-mini.html" class="btn btn-sm btn-primary">Details</a>
-            </div>
-          </article>
-          <article class="card">
-            <img src="img/products/professional-atc-simulator-realistic-training-for-air-traffic-controllers.png" alt="ATC Simulator" class="card-img-real" loading="lazy">
-            <div class="card-body">
-              <h3>Professional ATC Simulator</h3>
-              <p class="price"><strong>350.000 €</strong></p>
-              <p>ATC training · +€120k / workstation</p>
-              <a href="products/atc-simulator.html" class="btn btn-sm btn-primary">Details</a>
-            </div>
-          </article>
-          <article class="card">
-            <img src="img/products/professional-drone-simulator.png" alt="Drone Simulator" class="card-img-real" loading="lazy">
-            <div class="card-body">
-              <h3>Professional Drone Simulator</h3>
-              <p class="price"><strong>15.000 €</strong></p>
-              <p>Immersive 360° drone training</p>
-              <a href="products/drone-simulator.html" class="btn btn-sm btn-primary">Details</a>
-            </div>
-          </article>
-        </div>
+        <div id="homeBlocks"></div>
         <p class="center mt"><a href="products/" class="btn btn-outline">View full catalogue (18 products)</a></p>
       </div>
     </section>
@@ -186,6 +148,6 @@
       </div>
     </div>
   </div>
-  <script src="js/main.js?v=6" defer></script>
+  <script src="js/main.js?v=7" defer></script>
 </body>
 </html>

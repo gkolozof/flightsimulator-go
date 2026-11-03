@@ -42,6 +42,44 @@
     ['Cessna magnetic compass', '230 €', 'products/cessna-magnetic-compass.html', 'img/products/gallery/cessna-magnetic-compass-0.png']
   ];
 
+  var PARTS = {
+    'products/cessna-cabin-172-152.html': 1,
+    'products/magic-yoke.html': 1,
+    'products/garmin-g1000.html': 1,
+    'products/garmin-g430.html': 1,
+    'products/garmin-g530.html': 1,
+    'products/pro-flight-radio-panel.html': 1,
+    'products/transponder.html': 1,
+    'products/cessna-magnetic-compass.html': 1
+  };
+
+  var homeBlocks = document.getElementById('homeBlocks');
+  if (homeBlocks) {
+    var pool = CATALOG.filter(function (p) { return !PARTS[p[2]]; });
+    for (var i = pool.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = pool[i];
+      pool[i] = pool[j];
+      pool[j] = tmp;
+    }
+    for (var start = 0; start < pool.length; start += 4) {
+      var block = document.createElement('div');
+      block.className = 'grid product-grid home-block';
+      pool.slice(start, start + 4).forEach(function (p) {
+        var card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = '<a><img class="card-img-real" alt="" loading="lazy"></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary">Details</a></div>';
+        card.querySelector('img').src = p[3];
+        card.querySelector('img').alt = p[0];
+        card.querySelector('h3').textContent = p[0];
+        card.querySelector('strong').textContent = p[1];
+        card.querySelectorAll('a').forEach(function (a) { a.href = p[2]; });
+        block.appendChild(card);
+      });
+      homeBlocks.appendChild(block);
+    }
+  }
+
   function filterCards(raw) {
     var cards = document.querySelectorAll('.product-grid .card, .product-grid article');
     if (!cards.length) return;

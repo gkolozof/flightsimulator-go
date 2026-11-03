@@ -24,7 +24,7 @@ ul { list-style: none; }
 
 /* Hero stage — title above image, copy on image, buttons below */
 .stage {
-  padding: calc(clamp(68px, 11vw, 100px) + clamp(1.1rem, 3vw, 2.2rem)) 0 clamp(1.5rem, 4vw, 3rem);
+  padding: calc(clamp(68px, 11vw, 100px) + 0.55rem) 0 clamp(1.5rem, 4vw, 3rem);
 }
 .stage-wrap { max-width: 1180px; }
 .stage-title {
@@ -203,6 +203,7 @@ ul { list-style: none; }
 
 .grid { display: grid; gap: 1.4rem; }
 .product-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.home-block { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 1.4rem; }
 .card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; transition: transform .25s, box-shadow .25s; }
 .card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.35); }
 .card-img-real { width: 100%; height: 190px; object-fit: cover; background: #0b1220; }
@@ -324,18 +325,22 @@ ul { list-style: none; }
   .search { order: 0; flex: 1 1 auto; max-width: none; margin: 0 .35rem; min-width: 0; }
   .logo { order: 0; }
   .nav-toggle { order: 1; }
-  .stage { padding-top: 10.5rem; }
+  .stage { padding-top: calc(clamp(68px, 11vw, 100px) + 0.4rem); }
   main > .section:first-of-type,
-  .product-hero { padding-top: 10.5rem !important; }
+  .product-hero { padding-top: calc(clamp(68px, 11vw, 100px) + 0.7rem) !important; }
   .product-layout, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
   .stage-frame { aspect-ratio: 4 / 3; min-height: 280px; }
   .cookie-inner { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 900px) {
+  .home-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .stage-frame { aspect-ratio: 3 / 4; min-height: 420px; }
   .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 0.7rem; }
   .hero-cta .btn { flex: 1 1 100%; }
   .stage-title { max-width: 100%; font-size: clamp(1.35rem, 6.4vw, 1.9rem); }
+  .home-block { grid-template-columns: 1fr; }
 }
 @media (min-width: 901px) and (max-width: 1100px) {
   .stage-frame { aspect-ratio: 16 / 10; }

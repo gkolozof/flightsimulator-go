@@ -53,8 +53,106 @@ function store_uploads($imgDir, $id, $files) {
     return $images;
 }
 
+function home_fields($html) {
+    $title = 'Professional Cessna 172/152';
+    $accent = 'Flight Simulators';
+    $lead = '';
+    $image = 'img/products/c172-magic-full-embedded-big.jpg';
+    if (preg_match('/id="homeTitle">(.*?)<br>\s*<span>(.*?)<\/span>\s*<\/h1>/s', $html, $m)) {
+        $title = trim(html_entity_decode(strip_tags($m[1]), ENT_QUOTES, 'UTF-8'));
+        $accent = trim(html_entity_decode(strip_tags($m[2]), ENT_QUOTES, 'UTF-8'));
+    }
+    if (preg_match('/id="homeLead">(.*?)<\/p>/s', $html, $m)) {
+        $lead = trim(html_entity_decode($m[1], ENT_QUOTES, 'UTF-8'));
+    }
+    if (preg_match('/id="homePhoto"[^>]*src="([^"]+)"/', $html, $m)) {
+        $image = $m[1];
+    }
+    return ['title' => $title, 'accent' => $accent, 'lead' => $lead, 'image' => $image];
+}
+
+function clean_lead($s) {
+    $s = strip_tags($s, '<b><strong>');
+    return preg_replace('/<(b|strong)\b[^>]*>/i', '<$1>', $s);
+}
+
+function save_home($root, $title, $accent, $lead, $image) {
+    $file = $root . '/index.html';
+    $html = (string) file_get_contents($file);
+    $titleHtml = '<h1 class="stage-title" id="homeTitle">' . h($title) . '<br> <span>' . h($accent) . '</span></h1>';
+    $html2 = preg_replace('/<h1 class="stage-title" id="homeTitle">.*?<\/h1>/s', $titleHtml, $html, 1);
+    if ($html2 === null) return false;
+    $html = $html2;
+    $leadHtml = '<p id="homeLead">' . clean_lead($lead) . '</p>';
+    $html2 = preg_replace('/<p id="homeLead">.*?<\/p>/s', $leadHtml, $html, 1);
+    if ($html2 === null) return false;
+    $html = $html2;
+    $html = preg_replace('/(<img id="homePhoto"[^>]*src=")[^"]+(")/', '$1' . h($image) . '$2', $html, 1);
+    $abs = 'https://flightsimulator.gr/' . ltrim($image, '/');
+    $html = preg_replace('/(<meta property="og:image" content=")[^"]+(")/', '$1' . h($abs) . '$2', $html, 1);
+    return file_put_contents($file, $html) !== false;
+}
+
+function admin_code_ok($dataDir, $hash, $given) {
+    $custom = $dataDir . '/access.code.php';
+    if (is_file($custom)) {
+        $loaded = include $custom;
+        return is_string($loaded) && hash_equals(trim($loaded), $given);
+    }
+    return password_verify($given, $hash);
+}
+
 $error = '';
 $saved = isset($_GET['saved']);
+$homeSaved = isset($_GET['home']);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_save'])) {
+    $given = trim((string) ($_POST['code'] ?? ''));
+    if (empty($_SESSION['admin_ok'])) {
+        if (!admin_code_ok($dataDir, $ACCESS_HASH, $given)) {
+            $error = 'Codice non valido.';
+        } else {
+            $_SESSION['admin_ok'] = true;
+        }
+    }
+    if ($error === '' && !empty($_SESSION['admin_ok'])) {
+        $title = trim((string) ($_POST['home_title'] ?? ''));
+        $accent = trim((string) ($_POST['home_accent'] ?? ''));
+        $lead = trim((string) ($_POST['home_lead'] ?? ''));
+        if ($title === '' || $accent === '' || $lead === '') {
+            $error = 'Titolo, sottotitolo e testo della foto sono obbligatori.';
+        } else {
+            $index = (string) file_get_contents($root . '/index.html');
+            $current = home_fields($index);
+            $image = $current['image'];
+            $file = $_FILES['home_photo'] ?? null;
+            if ($file && ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+                $ext = strtolower(pathinfo((string) $file['name'], PATHINFO_EXTENSION));
+                if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'], true)) {
+                    $error = 'Foto home: usa jpg, png o webp.';
+                } elseif (($file['size'] ?? 0) > 8 * 1024 * 1024) {
+                    $error = 'Foto home troppo grande (max 8 MB).';
+                } else {
+                    $dir = $root . '/img/home';
+                    if (!is_dir($dir)) mkdir($dir, 0755, true);
+                    $name = 'hero-' . bin2hex(random_bytes(4)) . '.' . ($ext === 'jpeg' ? 'jpg' : $ext);
+                    if (!move_uploaded_file($file['tmp_name'], $dir . '/' . $name)) {
+                        $error = 'Non riesco a salvare la foto della home.';
+                    } else {
+                        $image = 'img/home/' . $name;
+                    }
+                }
+            }
+            if ($error === '' && !save_home($root, $title, $accent, $lead, $image)) {
+                $error = 'Non riesco a aggiornare la home. Controlla i permessi di index.html.';
+            }
+            if ($error === '') {
+                header('Location: 1q2w3e4r5t6y7u8i9o0p.php?home=1');
+                exit;
+            }
+        }
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id']) && !empty($_SESSION['admin_ok'])) {
     $id = (string) $_POST['delete_id'];
@@ -228,6 +326,7 @@ $val = function ($key, $fallback = '') use ($editing) {
     if (!is_array($editing)) return h($fallback);
     return h($editing[$key] ?? $fallback);
 };
+$home = home_fields((string) @file_get_contents($root . '/index.html'));
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -243,10 +342,27 @@ $val = function ($key, $fallback = '') use ($editing) {
   <main>
     <section class="section" style="padding-top:8rem">
       <div class="container" style="max-width:720px">
+        <h1>Prima schermata</h1>
+        <p style="color:var(--muted);margin:0.6rem 0 1rem">Testo grande sopra la foto, testo sulla foto e foto principale della home.</p>
+        <?php if ($homeSaved): ?><p style="color:#4ade80">Home aggiornata.</p><?php endif; ?>
+        <?php if ($error && isset($_POST['home_save'])): ?><p style="color:#f87171"><?= h($error) ?></p><?php endif; ?>
+        <form class="form" method="post" enctype="multipart/form-data" style="margin-bottom:2.5rem">
+          <input type="hidden" name="home_save" value="1">
+          <?php if (!$logged): ?>
+          <div class="form-row"><label for="home_code">Codice di accesso</label><input id="home_code" name="code" type="password" required></div>
+          <?php endif; ?>
+          <div class="form-row"><label>Foto attuale</label><img src="<?= h($home['image']) ?>" alt="" style="width:100%;max-height:220px;object-fit:cover;border-radius:8px;background:#07111f"></div>
+          <div class="form-row"><label for="home_title">Titolo *</label><input id="home_title" name="home_title" value="<?= h($home['title']) ?>" required></div>
+          <div class="form-row"><label for="home_accent">Seconda riga del titolo *</label><input id="home_accent" name="home_accent" value="<?= h($home['accent']) ?>" required></div>
+          <div class="form-row"><label for="home_lead">Testo sulla foto *</label><textarea id="home_lead" name="home_lead" rows="4" required><?= h($home['lead']) ?></textarea></div>
+          <div class="form-row"><label for="home_photo">Nuova foto principale</label><input id="home_photo" name="home_photo" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <button class="btn btn-primary" type="submit">Salva la home</button>
+        </form>
+
         <h1><?= $editing ? 'Modifica prodotto' : 'Aggiungi un prodotto' ?></h1>
         <p style="color:var(--muted);margin:0.6rem 0 1rem">Puoi caricare più foto. Sotto la foto grande compaiono le altre dello stesso prodotto.</p>
         <?php if ($saved): ?><p style="color:#4ade80">Salvato.</p><?php endif; ?>
-        <?php if ($error): ?><p style="color:#f87171"><?= h($error) ?></p><?php endif; ?>
+        <?php if ($error && !isset($_POST['home_save'])): ?><p style="color:#f87171"><?= h($error) ?></p><?php endif; ?>
         <form class="form" method="post" enctype="multipart/form-data">
           <?php if ($editing): ?><input type="hidden" name="edit_id" value="<?= h($editing['id']) ?>"><?php endif; ?>
           <?php if (!$logged): ?>
