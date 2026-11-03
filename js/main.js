@@ -229,11 +229,9 @@
       + '<input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">'
       + '<input type="email" name="email" required maxlength="254" placeholder="Email *" aria-label="Email *">'
       + '<label class="news-ok"><input type="checkbox" name="consent" required> <span>I agree to receive email from Flight Simulator. <a href="' + privacy + '">Privacy Policy</a>.</span></label>'
-      + '<button type="submit" class="btn btn-sm btn-primary">Subscribe</button>'
-      + '<p class="news-msg" role="status"></p></form>';
+      + '<button type="submit" class="btn btn-sm btn-primary">Subscribe</button></form>';
     row.appendChild(box);
     var form = box.querySelector('form');
-    var msg = box.querySelector('.news-msg');
     var codes = {
       subscribed: 'You are subscribed. Check your inbox.',
       exists: 'This address is already subscribed.',
@@ -242,11 +240,27 @@
       consent: 'Please confirm that you agree to receive email.',
       fail: 'Subscription is not available right now.'
     };
+    function showPop(ok, text) {
+      var old = document.getElementById('newsPop');
+      if (old) old.remove();
+      var back = document.createElement('div');
+      back.id = 'newsPop';
+      back.className = 'news-pop-back';
+      var pop = document.createElement('div');
+      pop.className = 'news-pop ' + (ok ? 'ok' : 'bad');
+      pop.setAttribute('role', 'alert');
+      pop.textContent = text;
+      back.appendChild(pop);
+      document.body.appendChild(back);
+      function close() { if (back.parentNode) back.remove(); }
+      back.addEventListener('click', close);
+      setTimeout(close, 4500);
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var tr = window.FS_I18N ? FS_I18N.t : function (s) { return s; };
       var btn = form.querySelector('button');
-      if (!form.consent.checked) { msg.textContent = tr(codes.consent); return; }
+      if (!form.consent.checked) { showPop(false, tr(codes.consent)); return; }
       btn.disabled = true;
       var body = new FormData(form);
       body.set('lang', window.FS_I18N ? FS_I18N.code() : 'en');
@@ -254,10 +268,11 @@
         .then(function (r) { return r.json(); })
         .then(function (data) {
           var code = data && data.code ? data.code : 'fail';
-          msg.textContent = tr(codes[code] || codes.fail);
-          if (data && data.ok && code === 'subscribed') form.reset();
+          var ok = !!(data && data.ok);
+          showPop(ok, tr(codes[code] || codes.fail));
+          if (ok && code === 'subscribed') form.reset();
         })
-        .catch(function () { msg.textContent = tr(codes.fail); })
+        .catch(function () { showPop(false, tr(codes.fail)); })
         .then(function () { btn.disabled = false; });
     });
   }
