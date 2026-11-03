@@ -212,11 +212,17 @@
   }
 
   function mountNewsletter() {
-    var footer = document.querySelector('footer.footer');
-    if (!footer || document.getElementById('newsForm')) return;
+    var section = document.querySelector('.cta-section');
+    var quote = section && section.querySelector('.container');
+    if (!section || !quote || document.getElementById('newsForm')) return;
+    var row = document.createElement('div');
+    row.className = 'cta-row';
+    section.insertBefore(row, quote);
+    quote.classList.add('cta-card');
+    row.appendChild(quote);
     var privacy = pageUrl('privacy.html');
     var box = document.createElement('div');
-    box.className = 'container news-wrap';
+    box.className = 'news-wrap';
     box.innerHTML = '<form class="news-form" id="newsForm" method="post" action="/newsletter.php" novalidate>'
       + '<h2>Newsletter</h2>'
       + '<p>Product news for flight schools. No spam.</p>'
@@ -225,9 +231,7 @@
       + '<label class="news-ok"><input type="checkbox" name="consent" required> <span>I agree to receive email from Flight Simulator. <a href="' + privacy + '">Privacy Policy</a>.</span></label>'
       + '<button type="submit" class="btn btn-sm btn-primary">Subscribe</button>'
       + '<p class="news-msg" role="status"></p></form>';
-    var bottom = footer.querySelector('.footer-bottom');
-    if (bottom) footer.insertBefore(box, bottom);
-    else footer.appendChild(box);
+    row.appendChild(box);
     var form = box.querySelector('form');
     var msg = box.querySelector('.news-msg');
     var codes = {
