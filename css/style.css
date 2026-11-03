@@ -318,6 +318,21 @@ ul { list-style: none; }
 .cookie-modal-actions { display: flex; gap: .6rem; margin-top: 1rem; }
 .footer .logo img { height: clamp(36px, 6vw, 48px); max-height: 48px; }
 
+.news-wrap { max-width: 440px; margin: 0 auto 1.5rem; text-align: center; }
+.news-form h2 { color: #fff; font-size: 1.15rem; margin: 0 0 .35rem; }
+.news-form p { max-width: none; margin: .35rem auto; }
+.news-form input[type="email"] {
+  width: 100%; max-width: 360px; padding: .7rem 1rem; margin: .35rem auto 0;
+  display: block; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: #fff; font-family: inherit; font-size: 1rem;
+}
+.news-form input[type="email"]:focus { outline: none; border-color: var(--primary); }
+.news-form .hp { position: absolute; left: -9999px; height: 0; width: 0; opacity: 0; }
+.news-ok { display: flex; gap: .5rem; align-items: flex-start; text-align: left; color: var(--muted); font-size: .82rem; max-width: 360px; margin: .7rem auto; }
+.news-form a { display: inline; margin: 0; color: var(--primary); }
+.news-form button { margin-top: .2rem; }
+.news-msg { min-height: 1.2em; }
+
 /* GDPR Cookie banner */
 #cookie-banner {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;

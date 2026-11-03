@@ -243,6 +243,86 @@
     Object.keys(pack).forEach(function (en) { DICT[lang][en] = pack[en]; });
   });
 
+  var NEWS = {
+    es: {
+      'Newsletter': 'Boletín',
+      'Product news for flight schools. No spam.': 'Novedades para escuelas de vuelo. Sin correo basura.',
+      'I agree to receive email from Flight Simulator.': 'Acepto recibir correo de Flight Simulator.',
+      'Subscribe': 'Suscribirme',
+      'You are subscribed. Check your inbox.': 'Inscripción hecha. Revise su bandeja de entrada.',
+      'This address is already subscribed.': 'Esta dirección ya está inscrita.',
+      'Enter a valid email address.': 'Escriba un correo válido.',
+      'This domain cannot receive email.': 'Este dominio no puede recibir correo.',
+      'Subscription is not available right now.': 'La inscripción no está disponible ahora.',
+      'Please confirm that you agree to receive email.': 'Confirme que acepta recibir correo.'
+    },
+    fr: {
+      'Newsletter': 'Lettre d’information',
+      'Product news for flight schools. No spam.': 'Nouveautés pour les écoles de pilotage. Pas de spam.',
+      'I agree to receive email from Flight Simulator.': 'J’accepte de recevoir des e-mails de Flight Simulator.',
+      'Subscribe': 'S’inscrire',
+      'You are subscribed. Check your inbox.': 'Inscription confirmée. Vérifiez votre boîte mail.',
+      'This address is already subscribed.': 'Cette adresse est déjà inscrite.',
+      'Enter a valid email address.': 'Indiquez un e-mail valide.',
+      'This domain cannot receive email.': 'Ce domaine ne peut pas recevoir d’e-mail.',
+      'Subscription is not available right now.': 'L’inscription n’est pas disponible pour le moment.',
+      'Please confirm that you agree to receive email.': 'Confirmez que vous acceptez de recevoir des e-mails.'
+    },
+    ru: {
+      'Newsletter': 'Рассылка',
+      'Product news for flight schools. No spam.': 'Новости для лётных школ. Без спама.',
+      'I agree to receive email from Flight Simulator.': 'Я согласен получать письма от Flight Simulator.',
+      'Subscribe': 'Подписаться',
+      'You are subscribed. Check your inbox.': 'Подписка оформлена. Проверьте почту.',
+      'This address is already subscribed.': 'Этот адрес уже подписан.',
+      'Enter a valid email address.': 'Укажите настоящий адрес почты.',
+      'This domain cannot receive email.': 'Этот домен не принимает почту.',
+      'Subscription is not available right now.': 'Подписка сейчас недоступна.',
+      'Please confirm that you agree to receive email.': 'Подтвердите согласие на письма.'
+    },
+    de: {
+      'Newsletter': 'Newsletter',
+      'Product news for flight schools. No spam.': 'Neuigkeiten für Flugschulen. Kein Spam.',
+      'I agree to receive email from Flight Simulator.': 'Ich bin einverstanden, E-Mails von Flight Simulator zu erhalten.',
+      'Subscribe': 'Anmelden',
+      'You are subscribed. Check your inbox.': 'Anmeldung gespeichert. Prüfen Sie Ihr Postfach.',
+      'This address is already subscribed.': 'Diese Adresse ist bereits angemeldet.',
+      'Enter a valid email address.': 'Geben Sie eine gültige E-Mail ein.',
+      'This domain cannot receive email.': 'Diese Domain kann keine E-Mail empfangen.',
+      'Subscription is not available right now.': 'Die Anmeldung ist gerade nicht möglich.',
+      'Please confirm that you agree to receive email.': 'Bitte bestätigen Sie den E-Mail-Empfang.'
+    },
+    it: {
+      'Newsletter': 'Newsletter',
+      'Product news for flight schools. No spam.': 'Novità per le scuole di volo. Niente spam.',
+      'I agree to receive email from Flight Simulator.': 'Accetto di ricevere email da Flight Simulator.',
+      'Subscribe': 'Iscriviti',
+      'You are subscribed. Check your inbox.': 'Iscrizione fatta. Controlla la posta.',
+      'This address is already subscribed.': 'Questo indirizzo è già iscritto.',
+      'Enter a valid email address.': 'Scrivi un indirizzo email valido.',
+      'This domain cannot receive email.': 'Questo dominio non riceve email.',
+      'Subscription is not available right now.': 'L’iscrizione non è disponibile adesso.',
+      'Please confirm that you agree to receive email.': 'Conferma di accettare le email.'
+    },
+    el: {
+      'Newsletter': 'Ενημερωτικό δελτίο',
+      'Product news for flight schools. No spam.': 'Νέα για σχολές πτήσεων. Χωρίς ανεπιθύμητα.',
+      'I agree to receive email from Flight Simulator.': 'Συμφωνώ να λαμβάνω email από τη Flight Simulator.',
+      'Subscribe': 'Εγγραφή',
+      'You are subscribed. Check your inbox.': 'Η εγγραφή ολοκληρώθηκε. Ελέγξτε τα εισερχόμενα.',
+      'This address is already subscribed.': 'Αυτή η διεύθυνση είναι ήδη εγγεγραμμένη.',
+      'Enter a valid email address.': 'Γράψτε ένα έγκυρο email.',
+      'This domain cannot receive email.': 'Αυτός ο τομέας δεν δέχεται email.',
+      'Subscription is not available right now.': 'Η εγγραφή δεν είναι διαθέσιμη τώρα.',
+      'Please confirm that you agree to receive email.': 'Επιβεβαιώστε ότι συμφωνείτε να λαμβάνετε email.'
+    }
+  };
+  Object.keys(NEWS).forEach(function (lang) {
+    var pack = NEWS[lang];
+    if (!DICT[lang]) DICT[lang] = {};
+    Object.keys(pack).forEach(function (en) { DICT[lang][en] = pack[en]; });
+  });
+
   var current = 'en';
   var origText = new WeakMap();
   var started = false;

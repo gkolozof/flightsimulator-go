@@ -211,6 +211,54 @@
       .catch(function () {});
   }
 
+  function mountNewsletter() {
+    var footer = document.querySelector('footer.footer');
+    if (!footer || document.getElementById('newsForm')) return;
+    var privacy = pageUrl('privacy.html');
+    var box = document.createElement('div');
+    box.className = 'container news-wrap';
+    box.innerHTML = '<form class="news-form" id="newsForm" method="post" action="/newsletter.php" novalidate>'
+      + '<h2>Newsletter</h2>'
+      + '<p>Product news for flight schools. No spam.</p>'
+      + '<input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">'
+      + '<input type="email" name="email" required maxlength="254" placeholder="Email *" aria-label="Email *">'
+      + '<label class="news-ok"><input type="checkbox" name="consent" required> <span>I agree to receive email from Flight Simulator. <a href="' + privacy + '">Privacy Policy</a>.</span></label>'
+      + '<button type="submit" class="btn btn-sm btn-primary">Subscribe</button>'
+      + '<p class="news-msg" role="status"></p></form>';
+    var bottom = footer.querySelector('.footer-bottom');
+    if (bottom) footer.insertBefore(box, bottom);
+    else footer.appendChild(box);
+    var form = box.querySelector('form');
+    var msg = box.querySelector('.news-msg');
+    var codes = {
+      subscribed: 'You are subscribed. Check your inbox.',
+      exists: 'This address is already subscribed.',
+      invalid: 'Enter a valid email address.',
+      nomx: 'This domain cannot receive email.',
+      consent: 'Please confirm that you agree to receive email.',
+      fail: 'Subscription is not available right now.'
+    };
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var tr = window.FS_I18N ? FS_I18N.t : function (s) { return s; };
+      var btn = form.querySelector('button');
+      if (!form.consent.checked) { msg.textContent = tr(codes.consent); return; }
+      btn.disabled = true;
+      var body = new FormData(form);
+      body.set('lang', window.FS_I18N ? FS_I18N.code() : 'en');
+      fetch('/newsletter.php', { method: 'POST', body: body, headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var code = data && data.code ? data.code : 'fail';
+          msg.textContent = tr(codes[code] || codes.fail);
+          if (data && data.ok && code === 'subscribed') form.reset();
+        })
+        .catch(function () { msg.textContent = tr(codes.fail); })
+        .then(function () { btn.disabled = false; });
+    });
+  }
+  mountNewsletter();
+
   // Contact form
   var form = document.getElementById('contactForm');
   if (form) {
