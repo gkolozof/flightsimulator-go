@@ -338,12 +338,25 @@
       b.setAttribute('aria-selected', b.dataset.lang === current ? 'true' : 'false');
     });
   }
+  function pathLang() {
+    var m = (location.pathname || '').match(/^\/(es|fr|ru|de|it|el)(?=\/|$)/);
+    return m ? m[1] : 'en';
+  }
+  function barePath() {
+    var p = location.pathname || '/';
+    p = p.replace(/^\/(es|fr|ru|de|it|el)(?=\/|$)/, '');
+    return p || '/';
+  }
+  function urlFor(id) {
+    var p = barePath();
+    var tail = location.search + location.hash;
+    if (id === 'en') return p + tail;
+    return '/' + id + (p === '/' ? '/' : p) + tail;
+  }
   function setLang(id) {
     if (!LANGS.some(function (l) { return l.id === id; })) id = 'en';
-    current = id;
     try { localStorage.setItem(KEY, id); } catch (e) {}
-    apply();
-    document.dispatchEvent(new CustomEvent('fs-lang'));
+    location.href = urlFor(id);
   }
   function closeMenu() {
     var menu = document.getElementById('langMenu');
@@ -404,7 +417,15 @@
   function start() {
     if (started) { apply(); return; }
     started = true;
-    current = readSaved();
+    var fromUrl = pathLang();
+    if (fromUrl === 'en') {
+      var saved = readSaved();
+      if (saved !== 'en') {
+        location.replace(urlFor(saved));
+        return;
+      }
+    }
+    current = fromUrl;
     mount();
     apply();
     document.dispatchEvent(new CustomEvent('fs-lang'));

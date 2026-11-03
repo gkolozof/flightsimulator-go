@@ -53,6 +53,17 @@
     'products/cessna-magnetic-compass.html': 1
   };
 
+  function langPrefix() {
+    var m = location.pathname.match(/^\/(es|fr|ru|de|it|el)(?=\/|$)/);
+    return m ? '/' + m[1] : '';
+  }
+  function assetUrl(rel) {
+    return '/' + String(rel || '').replace(/^\//, '');
+  }
+  function pageUrl(rel) {
+    return langPrefix() + '/' + String(rel || '').replace(/^\//, '');
+  }
+
   var homeBlocks = document.getElementById('homeBlocks');
   if (homeBlocks) {
     var pool = CATALOG.filter(function (p) { return !PARTS[p[2]]; });
@@ -69,11 +80,11 @@
         var card = document.createElement('article');
         card.className = 'card';
         card.innerHTML = '<a><img class="card-img-real" alt="" loading="lazy"></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary">Details</a></div>';
-        card.querySelector('img').src = p[3];
+        card.querySelector('img').src = assetUrl(p[3]);
         card.querySelector('img').alt = p[0];
         card.querySelector('h3').textContent = p[0];
         card.querySelector('strong').textContent = p[1];
-        card.querySelectorAll('a').forEach(function (a) { a.href = p[2]; });
+        card.querySelectorAll('a').forEach(function (a) { a.href = pageUrl(p[2]); });
         block.appendChild(card);
       });
       homeBlocks.appendChild(block);
@@ -107,14 +118,13 @@
     }
   }
 
-  var root = location.pathname.indexOf('/products/') !== -1 ? '../' : '';
   var header = document.querySelector('.header-inner');
   if (header && !document.getElementById('siteSearch')) {
     var searchForm = document.createElement('form');
     searchForm.className = 'search';
     searchForm.id = 'siteSearch';
     searchForm.setAttribute('role', 'search');
-    searchForm.action = root + 'products/';
+    searchForm.action = pageUrl('products/');
     searchForm.method = 'get';
     searchForm.innerHTML = '<input type="search" name="q" placeholder="Search products…" autocomplete="off" aria-label="Search products" enterkeyhint="search"><div class="search-results" data-no-i18n hidden></div>';
     var toggleBtn = header.querySelector('.nav-toggle');
@@ -134,8 +144,8 @@
       }).slice(0, 8);
       box.innerHTML = hits.length
         ? hits.map(function (p) {
-            var img = p[3] ? '<img src="' + root + p[3] + '" alt="" width="46" height="46">' : '';
-            return '<a href="' + root + p[2] + '">' + img + '<span>' + p[0] + '<small>' + p[1] + '</small></span></a>';
+            var img = p[3] ? '<img src="' + assetUrl(p[3]) + '" alt="" width="46" height="46">' : '';
+            return '<a href="' + pageUrl(p[2]) + '">' + img + '<span>' + p[0] + '<small>' + p[1] + '</small></span></a>';
           }).join('')
         : '<div class="search-empty">' + (window.FS_I18N ? FS_I18N.t('No products match.') : 'No products match.') + '</div>';
       box.hidden = false;
@@ -156,10 +166,9 @@
     });
   }
 
-  var extraRoot = location.pathname.indexOf('/products/') !== -1 ? '../' : '';
   var onCatalogue = !!document.getElementById('grid-c172');
   if (onCatalogue) {
-    fetch(extraRoot + '1q2w3e4r5t6y7u8i9o0p/products.json', { cache: 'no-store' })
+    fetch('/1q2w3e4r5t6y7u8i9o0p/products.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (list) {
         if (!Array.isArray(list)) return;
@@ -189,7 +198,7 @@
           card.className = 'card';
           var href = p.id + '.html';
           card.innerHTML = '<a><img class="card-img-real" loading="lazy" alt=""></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary">Details</a></div>';
-          card.querySelector('img').src = extraRoot + imgs[0];
+          card.querySelector('img').src = assetUrl(imgs[0]);
           card.querySelector('img').alt = p.name || '';
           card.querySelector('h3').textContent = p.name || '';
           card.querySelector('strong').textContent = p.price || '';

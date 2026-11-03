@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="fr"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cessna magnetic compass | Flight Simulator</title>
+  <meta name="description" content="Cessna magnetic compass for a realistic simulator instrument panel, in the original cockpit position. €230.">
+  <link rel="canonical" href="https://flightsimulator.gr/fr/products/cessna-magnetic-compass.html">
+  <link rel="icon" href="/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/css/style.css?v=8">
+
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://flightsimulator.gr/fr/products/cessna-magnetic-compass.html">
+  <meta property="og:title" content="Cessna magnetic compass">
+  <meta property="og:description" content="Cessna magnetic compass for a realistic simulator instrument panel, in the original cockpit position. €230.">
+  <meta property="og:image" content="https://flightsimulator.gr/img/products/gallery/cessna-magnetic-compass-0.jpg">
+  <meta property="og:site_name" content="Flight Simulator">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Cessna magnetic compass", "image": "https://flightsimulator.gr/img/products/gallery/cessna-magnetic-compass-0.jpg", "description": "Cessna magnetic compass for a realistic simulator instrument panel, in the original cockpit position. €230.", "brand": {"@type": "Brand", "name": "Flight Simulator"}, "offers": {"@type": "Offer", "url": "https://flightsimulator.gr/fr/products/cessna-magnetic-compass.html", "priceCurrency": "EUR", "price": "230", "availability": "https://schema.org/InStock"}}</script>
+  
+  <!-- hreflang -->
+  <link rel="alternate" hreflang="en" href="https://flightsimulator.gr/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="es" href="https://flightsimulator.gr/es/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="fr" href="https://flightsimulator.gr/fr/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="ru" href="https://flightsimulator.gr/ru/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="de" href="https://flightsimulator.gr/de/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="it" href="https://flightsimulator.gr/it/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="el" href="https://flightsimulator.gr/el/products/cessna-magnetic-compass.html">
+  <link rel="alternate" hreflang="x-default" href="https://flightsimulator.gr/products/cessna-magnetic-compass.html">
+  <!-- /hreflang -->
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/fr/" class="logo"><img src="/img/logo.svg" alt="Flight Simulator"></a>
+      <nav class="nav" id="nav">
+        <a href="/fr/products/">Produits</a>
+        <a href="/fr/how-it-works.html">Comment ça marche</a>
+        <a href="/fr/contact.html" class="btn btn-sm">Contact</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <main>
+    <section class="product-hero">
+      <div class="container product-layout">
+        <div class="product-gallery">
+          <div class="gallery-stage">
+            <button type="button" class="g-prev" aria-label="Photo précédente">‹</button>
+            <img id="mainPhoto" src="/img/products/gallery/cessna-magnetic-compass-0.jpg" alt="Cessna magnetic compass">
+            <button type="button" class="g-next" aria-label="Photo suivante">›</button>
+          </div>
+          <div class="thumbs"><img src="/img/products/gallery/cessna-magnetic-compass-0.jpg" alt="Cessna magnetic compass"><img src="/img/products/gallery/cessna-magnetic-compass-1.jpg" alt="Cessna magnetic compass"></div>
+        </div>
+        <div class="product-info">
+          <h1>Cessna magnetic compass</h1>
+          <p class="price"><strong>230 €</strong></p>
+          <p class="lead">Délai de livraison : 2–3 mois</p>
+          <p>Compas magnétique Cessna pour un tableau de bord réaliste.</p>
+          <button class="btn btn-primary" type="button" id="buyBtn">Acheter</button>
+          <form class="form" id="orderForm" action="/order.php" method="post" hidden="" style="margin-top:1.2rem">
+            <input type="hidden" name="product" value="Cessna magnetic compass">
+            <div class="form-row"><label>Nom *</label><input name="name" required=""></div>
+            <div class="form-row"><label>E-mail *</label><input type="email" name="email" required=""></div>
+            <div class="form-row"><label>Téléphone</label><input name="phone"></div>
+            <div class="form-row"><label>Message</label><textarea name="message" rows="4" placeholder="Quantité, pays de livraison, questions…"></textarea></div>
+            <button class="btn btn-primary" type="submit">Envoyer la commande par e-mail</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="container footer-bottom"><p>© <span id="year"></span> Flight Simulator · <a href="https://virtualsky.gr/" rel="noopener noreferrer">Virtual Sky</a> · <a href="https://www.simmax.it/" rel="noopener noreferrer">SimMax</a> · <a href="https://maps.app.goo.gl/o1ArTV3xw87fBqeBA" rel="noopener noreferrer">Athens</a> · <a href="/fr/products/">Catalogue</a></p></div></footer>
+  <script>
+    (function(){
+      var imgs=[].slice.call(document.querySelectorAll('.thumbs img'));
+      var seen={};
+      imgs=imgs.filter(function(img){
+        var k=img.getAttribute('src');
+        if(seen[k]){ img.remove(); return false; }
+        seen[k]=1; return true;
+      });
+      var main=document.getElementById('mainPhoto');
+      var i=0;
+      function show(n){
+        if(!imgs.length) return;
+        i=(n+imgs.length)%imgs.length;
+        main.src=imgs[i].src;
+        imgs.forEach(function(t,k){ t.classList.toggle('on', k===i); });
+      }
+      imgs.forEach(function(t,k){ t.addEventListener('click', function(){ show(k); }); });
+      var prev=document.querySelector('.g-prev'), next=document.querySelector('.g-next');
+      if(imgs.length<2){
+        if(prev) prev.hidden=true;
+        if(next) next.hidden=true;
+        var box=document.querySelector('.thumbs');
+        if(box) box.hidden=true;
+      } else {
+        prev.addEventListener('click', function(){ show(i-1); });
+        next.addEventListener('click', function(){ show(i+1); });
+      }
+      show(0);
+      document.getElementById('buyBtn').addEventListener('click', function(){
+        var f=document.getElementById('orderForm');
+        f.hidden=false;
+        f.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    })();
+  </script>
+  <script src="/js/i18n.js?v=15" defer=""></script>
+  <script src="/js/main.js?v=10" defer=""></script>
+
+
+</body></html>
