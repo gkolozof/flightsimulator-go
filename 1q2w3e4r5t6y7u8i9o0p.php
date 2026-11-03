@@ -1,7 +1,7 @@
 <?php
 session_start();
 $root = __DIR__;
-$dataDir = $root . '/data';
+$dataDir = $root . '/1q2w3e4r5t6y7u8i9o0p';
 $jsonFile = $dataDir . '/products.json';
 $imgDir = $root . '/img/products/extra';
 $ACCESS_HASH = '$2y$12$r7QuK0kU.t4HX83uVX6UD.y8oFJK6ULLW70CP73lFhpYKqvPNLcYm';
@@ -126,7 +126,7 @@ function write_product_html($root, $id, $name, $price, $desc, $images) {
         . '<div class="form-row"><label>Phone</label><input name="phone"></div><div class="form-row"><label>Message</label><textarea name="message" rows="4"></textarea></div>'
         . '<button class="btn btn-primary" type="submit">Send order by email</button></form></div></div></section></main>'
         . '<script>(function(){var imgs=[].slice.call(document.querySelectorAll(".thumbs img"));var seen={};imgs=imgs.filter(function(img){var k=img.getAttribute("src");if(seen[k]){img.remove();return false;}seen[k]=1;return true;});var main=document.getElementById("mainPhoto"),i=0;function show(n){if(!imgs.length)return;i=(n+imgs.length)%imgs.length;main.src=imgs[i].src;imgs.forEach(function(t,k){t.classList.toggle("on",k===i);});}imgs.forEach(function(t,k){t.addEventListener("click",function(){show(k);});});var prev=document.querySelector(".g-prev"),next=document.querySelector(".g-next");if(imgs.length<2){if(prev)prev.hidden=true;if(next)next.hidden=true;}else{prev.addEventListener("click",function(){show(i-1);});next.addEventListener("click",function(){show(i+1);});}show(0);document.getElementById("buyBtn").addEventListener("click",function(){var f=document.getElementById("orderForm");f.hidden=false;f.scrollIntoView({behavior:"smooth"});});})();</script>'
-        . '<script src="../js/i18n.js?v=11" defer></script><script src="../js/main.js?v=8" defer></script></body></html>';
+        . '<script src="../js/i18n.js?v=12" defer></script><script src="../js/main.js?v=9" defer></script></body></html>';
     file_put_contents($root . '/products/' . $id . '.html', $page);
 }
 
@@ -189,13 +189,39 @@ function save_home($root, $title, $accent, $lead, $image) {
     return file_put_contents($file, $html) !== false;
 }
 
-function admin_code_ok($dataDir, $hash, $given) {
-    $custom = $dataDir . '/access.code.php';
-    if (is_file($custom)) {
-        $loaded = include $custom;
-        return is_string($loaded) && hash_equals(trim($loaded), $given);
+function load_access($dataDir) {
+    $file = $dataDir . '/1q2w3e4r5t6y7u8i9o0p';
+    if (!is_file($file)) $file = $dataDir . '/access.code.php';
+    if (!is_file($file)) return null;
+    $raw = (string) file_get_contents($file);
+    if (strpos(ltrim($raw), '<?php') === 0) {
+        $loaded = include $file;
+        if (is_string($loaded) && trim($loaded) !== '') return ['code' => trim($loaded)];
+        if (is_array($loaded) && $loaded) return ['users' => $loaded];
+        return null;
     }
-    return password_verify($given, $hash);
+    $users = [];
+    foreach (preg_split('/\R/', $raw) as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#') continue;
+        if (strpos($line, ':') === false) return ['code' => $line];
+        [$user, $pass] = explode(':', $line, 2);
+        $user = trim($user);
+        $pass = trim($pass);
+        if ($user !== '' && $pass !== '') $users[$user] = $pass;
+    }
+    return $users ? ['users' => $users] : null;
+}
+
+function admin_code_ok($dataDir, $hash, $user, $given) {
+    $access = load_access($dataDir);
+    if ($access === null) return password_verify($given, $hash);
+    if (isset($access['code'])) return hash_equals($access['code'], $given);
+    $user = trim((string) $user);
+    if ($user === '' || !isset($access['users'][$user])) return false;
+    $stored = (string) $access['users'][$user];
+    if (strncmp($stored, '$2y$', 4) === 0) return password_verify($given, $stored);
+    return hash_equals($stored, $given);
 }
 
 $error = '';
@@ -205,7 +231,7 @@ $homeSaved = isset($_GET['home']);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['home_save'])) {
     $given = trim((string) ($_POST['code'] ?? ''));
     if (empty($_SESSION['admin_ok'])) {
-        if (!admin_code_ok($dataDir, $ACCESS_HASH, $given)) {
+        if (!admin_code_ok($dataDir, $ACCESS_HASH, (string) ($_POST['user'] ?? ''), $given)) {
             $error = 'Codice non valido.';
         } else {
             $_SESSION['admin_ok'] = true;
@@ -264,14 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id']) && !empt
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
     $given = trim((string) ($_POST['code'] ?? ''));
-    $custom = $dataDir . '/access.code.php';
-    if (is_file($custom)) {
-        $loaded = include $custom;
-        $ok = is_string($loaded) && hash_equals(trim($loaded), $given);
-    } else {
-        $ok = password_verify($given, $ACCESS_HASH);
-    }
-    if (!$ok && empty($_SESSION['admin_ok'])) {
+    if (!admin_code_ok($dataDir, $ACCESS_HASH, (string) ($_POST['user'] ?? ''), $given) && empty($_SESSION['admin_ok'])) {
         $error = 'Codice non valido.';
     } else {
         $_SESSION['admin_ok'] = true;
@@ -388,7 +407,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
                 $list = load_products($jsonFile);
                 $list[] = $item;
                 if (!save_products($jsonFile, $list)) {
-                    $error = 'Non riesco a salvare. Dai i permessi di scrittura alla cartella data/.';
+                    $error = 'Non riesco a salvare. Dai i permessi di scrittura alla cartella 1q2w3e4r5t6y7u8i9o0p/.';
                 } else {
                     write_product_html($root, $id, $name, $price, $desc, $images);
                     $lines = preg_split('/\R/u', $desc);
@@ -455,7 +474,8 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
         <form class="form" method="post" enctype="multipart/form-data" style="margin-bottom:2.5rem">
           <input type="hidden" name="home_save" value="1">
           <?php if (!$logged): ?>
-          <div class="form-row"><label for="home_code">Codice di accesso</label><input id="home_code" name="code" type="password" required></div>
+          <div class="form-row"><label for="home_user">Utente</label><input id="home_user" name="user" autocomplete="username"></div>
+          <div class="form-row"><label for="home_code">Password</label><input id="home_code" name="code" type="password" required></div>
           <?php endif; ?>
           <div class="form-row"><label>Foto attuale</label><img src="<?= h($home['image']) ?>" alt="" style="width:100%;max-height:220px;object-fit:cover;border-radius:8px;background:#07111f"></div>
           <div class="form-row"><label for="home_title">Titolo *</label><input id="home_title" name="home_title" value="<?= h($home['title']) ?>" required></div>
@@ -473,7 +493,8 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
         <form class="form" method="post" enctype="multipart/form-data">
           <?php if ($editing): ?><input type="hidden" name="edit_id" value="<?= h($editing['id']) ?>"><?php endif; ?>
           <?php if (!$logged): ?>
-          <div class="form-row"><label for="code">Codice di accesso</label><input id="code" name="code" type="password" required></div>
+          <div class="form-row"><label for="user">Utente</label><input id="user" name="user" autocomplete="username"></div>
+          <div class="form-row"><label for="code">Password</label><input id="code" name="code" type="password" required></div>
           <?php endif; ?>
           <div class="form-row"><label for="name">Nome prodotto *</label><input id="name" name="name" value="<?= $val('name') ?>" required></div>
           <div class="form-row">

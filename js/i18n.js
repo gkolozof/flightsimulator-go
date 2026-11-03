@@ -259,7 +259,7 @@
     });
   }
   function loadExtra() {
-    fetch('/data/i18n-extra.json', { cache: 'no-store' })
+    fetch('/1q2w3e4r5t6y7u8i9o0p/i18n-extra.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
         mergeExtra(j);

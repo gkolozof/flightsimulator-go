@@ -159,7 +159,7 @@
   var extraRoot = location.pathname.indexOf('/products/') !== -1 ? '../' : '';
   var onCatalogue = !!document.getElementById('grid-c172');
   if (onCatalogue) {
-    fetch(extraRoot + 'data/products.json', { cache: 'no-store' })
+    fetch(extraRoot + '1q2w3e4r5t6y7u8i9o0p/products.json', { cache: 'no-store' })
       .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (list) {
         if (!Array.isArray(list)) return;
