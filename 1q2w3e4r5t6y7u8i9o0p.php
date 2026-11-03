@@ -1,4 +1,13 @@
 <?php
+if (isset($_GET['logout'])) {
+    ini_set('session.use_cookies', '0');
+    session_start();
+    $_SESSION = [];
+    session_destroy();
+    setcookie('PHPSESSID', '', time() - 42000, '/');
+    header('Location: 1q2w3e4r5t6y7u8i9o0p.php');
+    exit;
+}
 session_start();
 $root = __DIR__;
 $dataDir = $root . '/1q2w3e4r5t6y7u8i9o0p';
@@ -462,7 +471,7 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
   <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
-  <header class="header"><div class="container header-inner"><a href="./" class="logo"><img src="img/logo.png" alt=""></a><a href="products/" class="btn btn-sm">Catalogo</a><a href="logout.php" class="btn btn-sm">Esci</a></div></header>
+  <header class="header"><div class="container header-inner"><a href="./" class="logo"><img src="img/logo.png" alt=""></a><a href="products/" class="btn btn-sm">Catalogo</a><?php if (!empty($_SESSION['admin_ok'])): ?><a href="1q2w3e4r5t6y7u8i9o0p.php?logout=1" class="btn btn-sm">Esci</a><?php endif; ?></div></header>
   <main>
     <section class="section" style="padding-top:8rem">
       <div class="container" style="max-width:720px">
@@ -474,8 +483,8 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
         <form class="form" method="post" enctype="multipart/form-data" style="margin-bottom:2.5rem">
           <input type="hidden" name="home_save" value="1">
           <?php if (!$logged): ?>
-          <div class="form-row"><label for="home_user">Utente</label><input id="home_user" name="user" autocomplete="username"></div>
-          <div class="form-row"><label for="home_code">Password</label><input id="home_code" name="code" type="password" required></div>
+          <div class="form-row"><label for="home_user">Utente (lascia vuoto)</label><input id="home_user" name="user" autocomplete="username"></div>
+          <div class="form-row"><label for="home_code">Codice di accesso</label><input id="home_code" name="code" type="password" required></div>
           <?php endif; ?>
           <div class="form-row"><label>Foto attuale</label><img src="<?= h($home['image']) ?>" alt="" style="width:100%;max-height:220px;object-fit:cover;border-radius:8px;background:#07111f"></div>
           <div class="form-row"><label for="home_title">Titolo *</label><input id="home_title" name="home_title" value="<?= h($home['title']) ?>" required></div>
@@ -493,8 +502,8 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
         <form class="form" method="post" enctype="multipart/form-data">
           <?php if ($editing): ?><input type="hidden" name="edit_id" value="<?= h($editing['id']) ?>"><?php endif; ?>
           <?php if (!$logged): ?>
-          <div class="form-row"><label for="user">Utente</label><input id="user" name="user" autocomplete="username"></div>
-          <div class="form-row"><label for="code">Password</label><input id="code" name="code" type="password" required></div>
+          <div class="form-row"><label for="user">Utente (lascia vuoto)</label><input id="user" name="user" autocomplete="username"></div>
+          <div class="form-row"><label for="code">Codice di accesso</label><input id="code" name="code" type="password" required></div>
           <?php endif; ?>
           <div class="form-row"><label for="name">Nome prodotto *</label><input id="name" name="name" value="<?= $val('name') ?>" required></div>
           <div class="form-row">
