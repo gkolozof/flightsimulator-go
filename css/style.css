@@ -301,18 +301,21 @@ ul { list-style: none; }
 
 .footer { background: #060a12; border-top: 1px solid var(--border); padding: 2.8rem 0 1.4rem; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; margin-bottom: 1.2rem; }
-.footer h4 { font-size: .9rem; margin-bottom: .65rem; color: #fff; }
+.footer h4, .footer-label { font-size: .9rem; margin-bottom: .65rem; color: #fff; font-weight: 700; }
 .footer a { display: block; color: var(--muted); font-size: .9rem; margin-bottom: .3rem; }
 .partner-row { display: flex; justify-content: center; align-items: flex-start; gap: 2.5rem; padding: .15rem 0 1.35rem; }
 .partner-row a { display: flex; flex-direction: column; align-items: center; gap: .45rem; margin: 0; background: none; padding: 0; color: var(--muted); transition: color .2s, transform .2s; }
 .partner-row a:hover { color: #fff; transform: translateY(-3px); }
 .partner-row .mark { width: 116px; height: 116px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid rgba(148,197,224,.28); }
+.partner-row .logo-vs .mark { width: auto; height: auto; border: none; border-radius: 0; overflow: visible; background: none; }
 .partner-row img { display: block; object-fit: cover; background: none; }
-.partner-row .logo-vs img { width: 176px; height: 176px; }
+.partner-row .logo-vs img { width: 108px; height: 108px; object-fit: contain; }
 .partner-row .logo-sm img { width: 116px; height: 116px; }
 .partner-row .name { font-size: .82rem; letter-spacing: .04em; }
 .footer p { color: var(--muted); font-size: .9rem; max-width: 300px; margin-top: .45rem; }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--muted); }
+.cta-mail { margin-top: 1rem; color: var(--muted); }
+.cookie-modal-actions { display: flex; gap: .6rem; margin-top: 1rem; }
 .footer .logo img { height: clamp(36px, 6vw, 48px); max-height: 48px; }
 
 /* GDPR Cookie banner */
