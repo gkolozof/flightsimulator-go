@@ -99,8 +99,10 @@
       grid.parentElement.insertBefore(note, grid);
     }
     if (note) {
+      var tr = window.FS_I18N ? FS_I18N.t : function (s) { return s; };
+      note.setAttribute('data-no-i18n', '');
       note.textContent = q
-        ? (shown ? shown + ' result' + (shown === 1 ? '' : 's') + ' for “' + raw.trim() + '”' : 'No products match “' + raw.trim() + '”.')
+        ? (shown ? shown + ' ' + tr(shown === 1 ? 'result' : 'results') + ' ' + tr('for') + ' “' + raw.trim() + '”' : tr('No products match') + ' “' + raw.trim() + '”.')
         : '';
     }
   }
@@ -114,7 +116,7 @@
     searchForm.setAttribute('role', 'search');
     searchForm.action = root + 'products/';
     searchForm.method = 'get';
-    searchForm.innerHTML = '<input type="search" name="q" placeholder="Search products…" autocomplete="off" aria-label="Search products" enterkeyhint="search"><div class="search-results" hidden></div>';
+    searchForm.innerHTML = '<input type="search" name="q" placeholder="Search products…" autocomplete="off" aria-label="Search products" enterkeyhint="search"><div class="search-results" data-no-i18n hidden></div>';
     var toggleBtn = header.querySelector('.nav-toggle');
     if (toggleBtn) header.insertBefore(searchForm, toggleBtn);
     else header.appendChild(searchForm);
@@ -135,7 +137,7 @@
             var img = p[3] ? '<img src="' + root + p[3] + '" alt="" width="46" height="46">' : '';
             return '<a href="' + root + p[2] + '">' + img + '<span>' + p[0] + '<small>' + p[1] + '</small></span></a>';
           }).join('')
-        : '<div class="search-empty">No products match.</div>';
+        : '<div class="search-empty">' + (window.FS_I18N ? FS_I18N.t('No products match.') : 'No products match.') + '</div>';
       box.hidden = false;
     }
 
@@ -148,6 +150,10 @@
       if (!searchForm.contains(e.target)) box.hidden = true;
     });
     filterCards(input.value);
+    document.addEventListener('fs-lang', function () {
+      renderMatches(input.value);
+      filterCards(input.value);
+    });
   }
 
   var extraRoot = location.pathname.indexOf('/products/') !== -1 ? '../' : '';
@@ -191,6 +197,7 @@
           grid.appendChild(card);
           CATALOG.push([p.name || '', p.price || '', 'products/' + href, imgs[0]]);
         });
+        if (window.FS_I18N) FS_I18N.apply();
       })
       .catch(function () {});
   }
@@ -202,13 +209,14 @@
       e.preventDefault();
       var btn = form.querySelector('[type=submit]');
       var orig = btn.textContent;
-      btn.textContent = 'Sent ✓';
+      var tr = window.FS_I18N ? FS_I18N.t : function (s) { return s; };
+      btn.textContent = tr('Sent ✓');
       btn.disabled = true;
       setTimeout(function () {
         btn.textContent = orig;
         btn.disabled = false;
         form.reset();
-        alert('Thank you. We will reply shortly.\n\n(Connect this form to Formspree / your backend for real delivery.)');
+        alert(tr('Thank you. We will reply shortly.'));
       }, 700);
     });
   }
@@ -303,4 +311,5 @@
       if (e.target === modal) hideModal();
     });
   }
+  if (window.FS_I18N) FS_I18N.start();
 })();

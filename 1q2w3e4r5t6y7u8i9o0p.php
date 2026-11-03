@@ -20,7 +20,7 @@ function write_product_html($root, $id, $name, $price, $desc, $images) {
     foreach ($images as $src) {
         $thumbs .= '<img src="../' . h($src) . '" alt="">';
     }
-    $page = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' . h($name) . '</title><link rel="stylesheet" href="../css/style.css"></head><body>'
+    $page = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' . h($name) . '</title><link rel="stylesheet" href="../css/style.css?v=8"></head><body>'
         . '<header class="header"><div class="container header-inner"><a href="../" class="logo"><img src="../img/logo.png" alt=""></a><a href="./">Products</a></div></header>'
         . '<main><section class="product-hero"><div class="container product-layout"><div class="product-gallery"><div class="gallery-stage"><button type="button" class="g-prev" aria-label="Previous photo">&#8249;</button><img id="mainPhoto" src="../' . h($images[0]) . '" alt="' . h($name) . '"><button type="button" class="g-next" aria-label="Next photo">&#8250;</button></div><div class="thumbs">' . $thumbs . '</div></div>'
         . '<div class="product-info"><h1>' . h($name) . '</h1><p class="price"><strong>' . h($price) . '</strong></p><p class="lead">Delivery time: 2–3 months</p><p>' . nl2br(h($desc)) . '</p>'
@@ -30,7 +30,7 @@ function write_product_html($root, $id, $name, $price, $desc, $images) {
         . '<div class="form-row"><label>Phone</label><input name="phone"></div><div class="form-row"><label>Message</label><textarea name="message" rows="4"></textarea></div>'
         . '<button class="btn btn-primary" type="submit">Send order by email</button></form></div></div></section></main>'
         . '<script>(function(){var imgs=[].slice.call(document.querySelectorAll(".thumbs img"));var seen={};imgs=imgs.filter(function(img){var k=img.getAttribute("src");if(seen[k]){img.remove();return false;}seen[k]=1;return true;});var main=document.getElementById("mainPhoto"),i=0;function show(n){if(!imgs.length)return;i=(n+imgs.length)%imgs.length;main.src=imgs[i].src;imgs.forEach(function(t,k){t.classList.toggle("on",k===i);});}imgs.forEach(function(t,k){t.addEventListener("click",function(){show(k);});});var prev=document.querySelector(".g-prev"),next=document.querySelector(".g-next");if(imgs.length<2){if(prev)prev.hidden=true;if(next)next.hidden=true;}else{prev.addEventListener("click",function(){show(i-1);});next.addEventListener("click",function(){show(i+1);});}show(0);document.getElementById("buyBtn").addEventListener("click",function(){var f=document.getElementById("orderForm");f.hidden=false;f.scrollIntoView({behavior:"smooth"});});})();</script>'
-        . '<script src="../js/main.js" defer></script></body></html>';
+        . '<script src="../js/i18n.js?v=8" defer></script><script src="../js/main.js?v=8" defer></script></body></html>';
     file_put_contents($root . '/products/' . $id . '.html', $page);
 }
 
@@ -335,7 +335,7 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <title>Aggiungi prodotto</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
   <header class="header"><div class="container header-inner"><a href="./" class="logo"><img src="img/logo.png" alt=""></a><a href="products/" class="btn btn-sm">Catalogo</a></div></header>
