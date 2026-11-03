@@ -462,7 +462,7 @@ $home = home_fields((string) @file_get_contents($root . '/index.html'));
   <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
-  <header class="header"><div class="container header-inner"><a href="./" class="logo"><img src="img/logo.png" alt=""></a><a href="products/" class="btn btn-sm">Catalogo</a></div></header>
+  <header class="header"><div class="container header-inner"><a href="./" class="logo"><img src="img/logo.png" alt=""></a><a href="products/" class="btn btn-sm">Catalogo</a><a href="logout.php" class="btn btn-sm">Esci</a></div></header>
   <main>
     <section class="section" style="padding-top:8rem">
       <div class="container" style="max-width:720px">
