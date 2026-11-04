@@ -21,6 +21,31 @@
     });
   }
 
+  function markNav() {
+    if (!nav) return;
+    var path = location.pathname.replace(/\/index\.html$/, '/');
+    var hash = location.hash;
+    var key = '';
+    if (hash === '#benefits') key = '#benefits';
+    else if (hash === '#faq') key = '#faq';
+    else if (/\/products(\/|$)/.test(path)) key = '/products';
+    else if (/how-it-works\.html$/.test(path)) key = 'how-it-works.html';
+    else if (/about\.html$/.test(path)) key = 'about.html';
+    else if (/contact\.html$/.test(path)) key = 'contact.html';
+    nav.querySelectorAll('a').forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      var on = false;
+      if (key === '#benefits' || key === '#faq') on = href.indexOf(key) !== -1;
+      else if (key === '/products') on = href.indexOf('/products') !== -1 && href.indexOf('#') === -1;
+      else if (key) on = href.indexOf(key) !== -1;
+      a.classList.toggle('is-on', on);
+      if (on) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  markNav();
+  window.addEventListener('hashchange', markNav);
+
   var CATALOG = [
     ['C172 Magic Full Embedded Big', '70.000 €', 'products/cessna-172-magic-big.html', 'img/products/gallery/c172-magic-full-embedded-big-0.jpg'],
     ['Professional C172 Magic Full Embedded Big', '75.000 €', 'products/professional-cessna-172-magic-big.html', 'img/products/gallery/professional-c172-magic-full-embedded-mini-2-0.jpg'],
