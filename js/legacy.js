@@ -5,6 +5,10 @@
   if (parts.length && langs[parts[0]]) lang = '/' + parts.shift();
   if (!parts.length) return;
   var kind = parts[0];
+  if (kind === 'flight-simulator-pro' || kind === 'flight-simulator' || kind === 'simulatore-di-volo') {
+    location.replace(lang ? lang + '/' : '/');
+    return;
+  }
   if (kind === 'view-all' || kind === 'view_all' || kind === 'all-products' || kind === 'tutti-i-prodotti') {
     location.replace((lang || '') + '/products/');
     return;
