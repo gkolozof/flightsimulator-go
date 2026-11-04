@@ -5,6 +5,10 @@
   if (parts.length && langs[parts[0]]) lang = '/' + parts.shift();
   if (!parts.length) return;
   var kind = parts[0];
+  if (kind === 'view-all' || kind === 'view_all' || kind === 'all-products' || kind === 'tutti-i-prodotti') {
+    location.replace((lang || '') + '/products/');
+    return;
+  }
   if (kind !== 'product-category' && kind !== 'product' && kind !== 'prodotto' && kind !== 'shop' && kind !== 'categoria-prodotto') return;
   var slug = (parts[1] || '').replace(/\/$/, '');
   var alias = {
