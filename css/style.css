@@ -358,6 +358,17 @@ ul { list-style: none; }
 .partner-row .logo-sm img { width: 116px; height: 116px; }
 .partner-row .name { font-size: .82rem; letter-spacing: .04em; }
 .footer p { color: var(--muted); font-size: .9rem; max-width: 300px; margin-top: .45rem; }
+.share-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  margin-top: 1.2rem;
+}
+.share-row span { color: var(--muted); font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-right: .2rem; }
+.share-row a {
+  display: inline-flex; align-items: center;
+  padding: .32rem .7rem; border: 1px solid var(--border); border-radius: 999px;
+  color: var(--text); font-size: .8rem; font-weight: 600;
+}
+.share-row a:hover { color: #fff; border-color: var(--primary); }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); font-size: .85rem; color: var(--muted); }
 .cta-mail { margin-top: 1rem; color: var(--muted); }
 .cookie-modal-actions { display: flex; gap: .6rem; margin-top: 1rem; }

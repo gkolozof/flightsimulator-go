@@ -104,12 +104,13 @@
       pool.slice(start, start + 4).forEach(function (p) {
         var card = document.createElement('article');
         card.className = 'card';
-        card.innerHTML = '<a><img class="card-img-real" alt="" loading="lazy"></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary">Details</a></div>';
+        card.innerHTML = '<a><img class="card-img-real" alt="" loading="lazy"></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary"><span>Details</span></a></div>';
         card.querySelector('img').src = assetUrl(p[3]);
         card.querySelector('img').alt = p[0];
         card.querySelector('h3').textContent = p[0];
         card.querySelector('strong').textContent = p[1];
         card.querySelectorAll('a').forEach(function (a) { a.href = pageUrl(p[2]); });
+        card.querySelector('.btn').appendChild(document.createTextNode(' ' + p[0]));
         block.appendChild(card);
       });
       homeBlocks.appendChild(block);
@@ -222,12 +223,13 @@
           var card = document.createElement('article');
           card.className = 'card';
           var href = p.id + '.html';
-          card.innerHTML = '<a><img class="card-img-real" loading="lazy" alt=""></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary">Details</a></div>';
+          card.innerHTML = '<a><img class="card-img-real" loading="lazy" alt=""></a><div class="card-body"><h3></h3><p class="price"><strong></strong></p><a class="btn btn-sm btn-primary"><span>Details</span></a></div>';
           card.querySelector('img').src = assetUrl(imgs[0]);
           card.querySelector('img').alt = p.name || '';
           card.querySelector('h3').textContent = p.name || '';
           card.querySelector('strong').textContent = p.price || '';
           card.querySelectorAll('a').forEach(function (a) { a.href = href; });
+          card.querySelector('.btn').appendChild(document.createTextNode(' ' + (p.name || '')));
           grid.appendChild(card);
           CATALOG.push([p.name || '', p.price || '', 'products/' + href, imgs[0]]);
         });
